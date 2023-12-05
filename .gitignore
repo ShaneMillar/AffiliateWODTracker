@@ -13,3 +13,5 @@
 /API/bin/Debug/net8.0
 /API/obj/Debug/net8.0
 /API/obj
+/AffiliateWODTracker.Services/obj/Debug/net8.0/AffiliateWODTracker.Services.AssemblyInfo.cs
+*.cache
