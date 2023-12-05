@@ -1,3 +1,8 @@
+using AffiliateWODTracker.Data.DataModels;
+using AffiliateWODTracker.Data.Interfaces;
+using AffiliateWODTracker.Data.Repositories;
+using AffiliateWODTracker.Services.Interfaces;
+using AffiliateWODTracker.Services.Managers;
 using Microsoft.AspNetCore.Identity;
 using Microsoft.EntityFrameworkCore;
 
@@ -5,15 +10,31 @@ var builder = WebApplication.CreateBuilder(args);
 
 // Add services to the container.
 var connectionString = builder.Configuration.GetConnectionString("DefaultConnection") ?? throw new InvalidOperationException("Connection string 'DefaultConnection' not found.");
+
+
+//builder.Services.AddDefaultIdentity<IdentityUser>(options => options.SignIn.RequireConfirmedAccount = true)
+//    .AddRoles<IdentityRole>() // Add roles if you plan to use them
+//    .AddEntityFrameworkStores<ApplicationDataContext>();
+
+
+
+builder.Services.AddIdentity<OwnerEntity, IdentityRole>()
+    .AddEntityFrameworkStores<ApplicationDataContext>()
+    .AddDefaultTokenProviders();
+
+builder.Services.AddControllersWithViews();
+
+
+// Add services to the container.
+builder.Services.AddRazorPages(); // This line registers Razor Pages services
+
+// Add other services like your data context, repositories, etc.
 builder.Services.AddDbContext<ApplicationDataContext>(options =>
     options.UseSqlServer(connectionString));
 builder.Services.AddDatabaseDeveloperPageExceptionFilter();
 
-builder.Services.AddDefaultIdentity<IdentityUser>(options => options.SignIn.RequireConfirmedAccount = true)
-    .AddRoles<IdentityRole>() // Add roles if you plan to use them
-    .AddEntityFrameworkStores<ApplicationDataContext>();
-
-builder.Services.AddControllersWithViews();
+builder.Services.AddScoped<IAffiliateRepository, AffiliateRepository>();
+builder.Services.AddScoped<IAffiliateManager, AffiliateManager>();
 
 var app = builder.Build();
 

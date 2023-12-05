@@ -17,6 +17,11 @@
 
   <ItemGroup>
     <ProjectReference Include="..\AffiliateWodTracker.Data\AffiliateWODTracker.Data.csproj" />
+    <ProjectReference Include="..\AffiliateWODTracker.Services\AffiliateWODTracker.Services.csproj" />
+  </ItemGroup>
+
+  <ItemGroup>
+    <Folder Include="wwwroot\images\" />
   </ItemGroup>
 
 </Project>

@@ -24,3 +24,33 @@
     .centered-form button {
         width: auto; /* Auto-width based on content */
     }
+    .logo-class {
+        width: 150px; /* Adjust the width as needed */
+        margin: 20px; /* Adjust the margin as needed */
+        display: block; /* To center in the container if needed */
+        margin-left: auto;
+        margin-right: auto;
+    }
+
+/* Custom button styles */
+.btn-custom-login {
+    background-color: #4CAF50; /* Green */
+    border-color: #4CAF50; /* Green */
+    color: white;
+}
+
+    .btn-custom-login:hover {
+        background-color: #45A049; /* Darker green */
+        border-color: #45A049;
+    }
+
+.btn-custom-register {
+    background-color: #f0ad4e; /* Orange */
+    border-color: #f0ad4e; /* Orange */
+    color: white;
+}
+
+    .btn-custom-register:hover {
+        background-color: #ec971f; /* Darker orange */
+        border-color: #ec971f;
+    }

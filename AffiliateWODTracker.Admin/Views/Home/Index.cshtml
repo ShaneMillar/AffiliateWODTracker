@@ -1,7 +1,12 @@
 ﻿@{
-    ViewData["Title"] = "Wodify";
+    ViewData["Title"] = "Home page";
 }
 
 <div class="text-center">
-    <h1 class="display-4">Welcome to Wodify</h1>
+    <img src="~/images/Wodify Logo.webp" alt="Wodify Logo" class="logo-class" />
+    <div class="centered-links">
+        <a class="btn btn-custom-login" asp-controller="Account" asp-action="Login">Login</a>
+        <a class="btn btn-custom-register" asp-controller="Account" asp-action="Register">Register</a>
+    </div>
 </div>
+

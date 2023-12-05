@@ -1,3 +1,4 @@
+using AffiliateWODTracker.Data.DataModels;
 using AffiliateWODTracker.Data.Interfaces;
 using AffiliateWODTracker.Data.Repositories;
 using Microsoft.AspNetCore.Identity;
@@ -16,9 +17,14 @@ builder.Services.AddDbContext<ApplicationDataContext>(options =>
         options.UseSqlServer(
             builder.Configuration.GetConnectionString("DefaultConnection")));
 
-builder.Services.AddDefaultIdentity<IdentityUser>(options => options.SignIn.RequireConfirmedAccount = true)
-    .AddRoles<IdentityRole>() // Add roles if you plan to use them
-    .AddEntityFrameworkStores<ApplicationDataContext>();
+//builder.Services.AddDefaultIdentity<IdentityUser>(options => options.SignIn.RequireConfirmedAccount = true)
+//    .AddRoles<IdentityRole>() // Add roles if you plan to use them
+//    .AddEntityFrameworkStores<ApplicationDataContext>();
+
+
+builder.Services.AddIdentity<OwnerEntity, IdentityRole>()
+    .AddEntityFrameworkStores<ApplicationDataContext>()
+    .AddDefaultTokenProviders();
 
 // Repository services
 builder.Services.AddScoped<IUserRepository, UserRepository>();

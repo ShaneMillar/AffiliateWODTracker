@@ -1,8 +1,9 @@
 ﻿using AffiliateWODTracker.Data.DataModels;
+using Microsoft.AspNetCore.Identity;
 using Microsoft.AspNetCore.Identity.EntityFrameworkCore;
 using Microsoft.EntityFrameworkCore;
 
-public class ApplicationDataContext : IdentityDbContext
+public class ApplicationDataContext : IdentityDbContext<OwnerEntity>
 {
     public ApplicationDataContext(DbContextOptions<ApplicationDataContext> options)
         : base(options)
@@ -14,18 +15,26 @@ public class ApplicationDataContext : IdentityDbContext
     public DbSet<ScoreEntity> Scores { get; set; }
     public DbSet<CommentEntity> Comments { get; set; }
 
-    // Other db sets...
+    public DbSet<MemberEntity> Members { get; set; }
+
 
     protected override void OnModelCreating(ModelBuilder modelBuilder)
     {
 
         base.OnModelCreating(modelBuilder);
 
+        //Configure Owner - Affiliate Relationship
+        modelBuilder.Entity<OwnerEntity>()
+           .HasOne(a => a.Affiliate)
+           .WithMany()
+           .HasForeignKey(u => u.AffiliateId)
+           .IsRequired(false); // Mark it as optional
 
-        // Configure WOD - Affiliate relationship
-        modelBuilder.Entity<WODEntity>()
+
+        // Configure Members - Affiliate relationship
+        modelBuilder.Entity<MemberEntity>()
             .HasOne(w => w.Affiliate)
-            .WithMany(a => a.WODs)
+            .WithMany(a => a.Members)
             .HasForeignKey(w => w.AffiliateId)
             .OnDelete(DeleteBehavior.Restrict); // Prevent cascading delete on WODs when an Affiliate is deleted
 

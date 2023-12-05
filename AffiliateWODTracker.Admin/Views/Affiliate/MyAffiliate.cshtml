@@ -1,0 +1,15 @@
+﻿@using AffiliateWODTracker.Core.ViewModels
+@model AffiliateViewModel
+
+@if (Model != null)
+{
+    <h2>@Model.Name</h2>
+    <p>@Model.Address</p>
+    // Display other affiliate details
+    // List members
+}
+else
+{
+    <p>You do not have an affiliate.</p>
+    <a asp-action="CreateAffiliate" class="btn btn-primary">Create new Affiliate</a>
+}

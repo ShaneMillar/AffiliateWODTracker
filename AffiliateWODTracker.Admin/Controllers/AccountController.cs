@@ -1,5 +1,6 @@
 ﻿using AffiliateWODTracker.Admin.Controllers;
 using AffiliateWODTracker.Admin.ViewModels;
+using AffiliateWODTracker.Data.DataModels;
 using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Identity;
 using Microsoft.AspNetCore.Mvc;
@@ -7,10 +8,10 @@ using Microsoft.AspNetCore.Mvc;
 [AllowAnonymous]
 public class AccountController : Controller
 {
-    private readonly UserManager<IdentityUser> _userManager;
-    private readonly SignInManager<IdentityUser> _signInManager;
+    private readonly UserManager<OwnerEntity> _userManager;
+    private readonly SignInManager<OwnerEntity> _signInManager;
 
-    public AccountController(UserManager<IdentityUser> userManager, SignInManager<IdentityUser> signInManager)
+    public AccountController(UserManager<OwnerEntity> userManager, SignInManager<OwnerEntity> signInManager)
     {
         _userManager = userManager;
         _signInManager = signInManager;
@@ -29,7 +30,7 @@ public class AccountController : Controller
     {
         if (ModelState.IsValid)
         {
-            var user = new IdentityUser { UserName = model.Email, Email = model.Email };
+            var user = new OwnerEntity { UserName = model.Email, Email = model.Email };
             var result = await _userManager.CreateAsync(user, model.Password);
             if (result.Succeeded)
             {
@@ -48,6 +49,7 @@ public class AccountController : Controller
     #endregion
 
 
+    #region Login
     [HttpGet]
     public IActionResult Login(string returnUrl = null)
     {
@@ -88,3 +90,4 @@ public class AccountController : Controller
         }
     }
 }
+#endregion 
