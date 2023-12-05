@@ -1,4 +1,5 @@
 ﻿using AffiliateWODTracker.Core.Models;
+using AffiliateWODTracker.Core.ViewModels;
 using AffiliateWODTracker.Data.DataModels;
 using AffiliateWODTracker.Data.Interfaces;
 using Microsoft.EntityFrameworkCore;
@@ -26,6 +27,28 @@ namespace AffiliateWODTracker.Data.Repositories
             }).ToList();
 
         }
+
+        public async Task<AffiliateViewModel> GetAffiliateByUserIdAsync(string userId)
+        {
+            // Attempt to retrieve the affiliate associated with the user
+            var affiliate = await _context.Affiliates
+                .Include(a => a.Owner)
+                .Where(a => a.Owner.Id == userId)
+                .FirstOrDefaultAsync();
+
+            if (affiliate == null)
+            {
+                return null; 
+            }
+
+            // If not null, map the entity to the model
+            return new AffiliateViewModel
+            {
+                Name = affiliate.Name,
+                Address = affiliate.Address
+            };
+        }
+
 
         public async Task<Affiliate> GetByIdAsync(int id)
         {

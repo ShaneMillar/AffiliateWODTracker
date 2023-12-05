@@ -16,6 +16,7 @@
     </PackageReference>
     <PackageReference Include="Swashbuckle.AspNetCore" Version="6.4.0" />
 	<ProjectReference Include="..\AffiliateWODTracker.Data\AffiliateWODTracker.Data.csproj" />
+	<ProjectReference Include="..\AffiliateWODTracker.Services\AffiliateWODTracker.Services.csproj" />
 
   </ItemGroup>
 

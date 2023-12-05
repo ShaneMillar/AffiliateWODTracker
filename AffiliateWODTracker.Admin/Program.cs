@@ -33,7 +33,10 @@ builder.Services.AddDbContext<ApplicationDataContext>(options =>
     options.UseSqlServer(connectionString));
 builder.Services.AddDatabaseDeveloperPageExceptionFilter();
 
+//Repositories
 builder.Services.AddScoped<IAffiliateRepository, AffiliateRepository>();
+
+//Managers
 builder.Services.AddScoped<IAffiliateManager, AffiliateManager>();
 
 var app = builder.Build();

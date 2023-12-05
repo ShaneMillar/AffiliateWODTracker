@@ -86,8 +86,20 @@ public class AccountController : Controller
         }
         else
         {
-            return RedirectToAction(nameof(HomeController.Index), "Home");
+            return RedirectToAction(nameof(AffiliateController.MyAffiliate), "Affiliate");
         }
     }
+    #endregion 
+
+
+    [HttpPost]
+    public async Task<IActionResult> Logout()
+    {
+        await _signInManager.SignOutAsync();
+        return RedirectToAction("Index", "Home");
+    }
+
 }
-#endregion 
+
+
+

@@ -1,6 +1,8 @@
 using AffiliateWODTracker.Data.DataModels;
 using AffiliateWODTracker.Data.Interfaces;
 using AffiliateWODTracker.Data.Repositories;
+using AffiliateWODTracker.Services.Interfaces;
+using AffiliateWODTracker.Services.Managers;
 using Microsoft.AspNetCore.Identity;
 using Microsoft.EntityFrameworkCore;
 
@@ -26,9 +28,13 @@ builder.Services.AddIdentity<OwnerEntity, IdentityRole>()
     .AddEntityFrameworkStores<ApplicationDataContext>()
     .AddDefaultTokenProviders();
 
-// Repository services
+// Repositories
 builder.Services.AddScoped<IUserRepository, UserRepository>();
 builder.Services.AddScoped<IAffiliateRepository, AffiliateRepository>();
+
+
+//Managers
+builder.Services.AddScoped<IAffiliateManager, AffiliateManager>();
 
 var app = builder.Build();
 

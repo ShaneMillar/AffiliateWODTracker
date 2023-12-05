@@ -1,4 +1,5 @@
-﻿using AffiliateWODTracker.Core.ViewModels;
+﻿using AffiliateWODTracker.Core.Models;
+using AffiliateWODTracker.Core.ViewModels;
 using AffiliateWODTracker.Data.Interfaces;
 using AffiliateWODTracker.Services.Interfaces;
 using System;
@@ -21,7 +22,9 @@ namespace AffiliateWODTracker.Services.Managers
 
         public async Task<AffiliateViewModel> GetAffiliateByUserId(string userId)
         {
-            return new AffiliateViewModel();
+            var affiliate = await _affiliateRepository.GetAffiliateByUserIdAsync(userId);
+
+            return affiliate;
         }
 
         //ADD Insert Affiliate

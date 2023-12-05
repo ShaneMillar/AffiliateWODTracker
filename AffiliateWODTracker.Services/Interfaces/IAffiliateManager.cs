@@ -1,4 +1,5 @@
-﻿using AffiliateWODTracker.Core.ViewModels;
+﻿using AffiliateWODTracker.Core.Models;
+using AffiliateWODTracker.Core.ViewModels;
 using System;
 using System.Collections.Generic;
 using System.Linq;
