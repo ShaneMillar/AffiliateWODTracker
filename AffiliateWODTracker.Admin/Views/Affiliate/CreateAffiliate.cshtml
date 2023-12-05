@@ -1,6 +1,46 @@
-﻿@* @model CreateAffiliateViewModel *@
+﻿@using AffiliateWODTracker.Core.RequestModels
+@model CreateAffiliateRequestModel
 
-<form asp-action="CreateAffiliate">
-    @* Include form fields for creating a new affiliate *@
-    <button type="submit" class="btn btn-success">Create Affiliate</button>
-</form>
+
+<img src="~/images/Wodify Logo.webp" alt="Wodify Logo" class="logo-class" />
+<div class="form-container">
+    <form asp-action="CreateAffiliate" method="post" class="affiliate-form">
+        <div class="form-group">
+            <label asp-for="Name" class="control-label"></label>
+            <input asp-for="Name" class="form-control" />
+            <span asp-validation-for="Name" class="text-danger"></span>
+        </div>
+
+        <div class="form-group">
+            <label asp-for="Address" class="control-label"></label>
+            <input asp-for="Address" class="form-control" />
+            <span asp-validation-for="Address" class="text-danger"></span>
+        </div>
+
+        <button type="submit" class="btn btn-success">Create Affiliate</button>
+    </form>
+</div>
+
+
+<style>
+    .form-container {
+        display: flex;
+        justify-content: center;
+        align-items: center;
+    }
+    .affiliate-form {
+        width: 100%;
+        max-width: 400px; /* Adjust the width as needed */
+    }
+    .form-control {
+        margin-bottom: 1rem; /* Spacing between input fields */
+    }
+    .btn-success {
+        width: 100%; /* Make the button full-width */
+    }
+</style>
+
+
+@section Scripts {
+    @{await Html.RenderPartialAsync("_ValidationScriptsPartial");}
+}

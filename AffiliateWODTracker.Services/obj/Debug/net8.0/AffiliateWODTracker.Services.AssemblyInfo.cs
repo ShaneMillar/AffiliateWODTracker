@@ -14,7 +14,7 @@ using System.Reflection;
 [assembly: System.Reflection.AssemblyCompanyAttribute("AffiliateWODTracker.Services")]
 [assembly: System.Reflection.AssemblyConfigurationAttribute("Debug")]
 [assembly: System.Reflection.AssemblyFileVersionAttribute("1.0.0.0")]
-[assembly: System.Reflection.AssemblyInformationalVersionAttribute("1.0.0+09486c9d3fc13886295a546bc390ab751a6ed1d8")]
+[assembly: System.Reflection.AssemblyInformationalVersionAttribute("1.0.0+7d312b55ea561f1ba455bcb0eff58221309c05a0")]
 [assembly: System.Reflection.AssemblyProductAttribute("AffiliateWODTracker.Services")]
 [assembly: System.Reflection.AssemblyTitleAttribute("AffiliateWODTracker.Services")]
 [assembly: System.Reflection.AssemblyVersionAttribute("1.0.0.0")]
