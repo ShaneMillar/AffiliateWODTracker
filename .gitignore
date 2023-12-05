@@ -1,0 +1,15 @@
+﻿################################################################################
+# This .gitignore file was automatically created by Microsoft(R) Visual Studio.
+################################################################################
+
+/.vs/AffiliateWODTracker
+/.vs
+/AffiliateWODTracker.Admin/bin/Debug/net8.0
+/AffiliateWODTracker.Admin/obj
+/AffiliateWODTracker.Core/bin/Debug/net8.0
+/AffiliateWODTracker.Core/obj
+/AffiliateWodTracker.Data/bin/Debug/net8.0
+/AffiliateWodTracker.Data/obj
+/API/bin/Debug/net8.0
+/API/obj/Debug/net8.0
+/API/obj
