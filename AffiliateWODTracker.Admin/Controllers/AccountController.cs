@@ -1,4 +1,5 @@
-﻿using AffiliateWODTracker.Admin.ViewModels;
+﻿using AffiliateWODTracker.Admin.Controllers;
+using AffiliateWODTracker.Admin.ViewModels;
 using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Identity;
 using Microsoft.AspNetCore.Mvc;
@@ -15,6 +16,7 @@ public class AccountController : Controller
         _signInManager = signInManager;
     }
 
+    #region Register
     [HttpGet]
     public IActionResult Register()
     {
@@ -42,5 +44,47 @@ public class AccountController : Controller
 
         // If we got this far, something failed, redisplay form
         return View(model);
+    }
+    #endregion
+
+
+    [HttpGet]
+    public IActionResult Login(string returnUrl = null)
+    {
+        ViewData["ReturnUrl"] = returnUrl;
+        return View();
+    }
+
+    [HttpPost]
+    [ValidateAntiForgeryToken]
+    public async Task<IActionResult> Login(LoginViewModel model, string returnUrl = null)
+    {
+        ViewData["ReturnUrl"] = returnUrl;
+        if (ModelState.IsValid)
+        {
+            var result = await _signInManager.PasswordSignInAsync(model.Email, model.Password, model.RememberMe, lockoutOnFailure: false);
+            if (result.Succeeded)
+            {
+                return RedirectToLocal(returnUrl);
+            }
+            else
+            {
+                ModelState.AddModelError(string.Empty, "Invalid login attempt.");
+                return View(model);
+            }
+        }
+        return View(model);
+    }
+
+    private IActionResult RedirectToLocal(string returnUrl)
+    {
+        if (Url.IsLocalUrl(returnUrl))
+        {
+            return Redirect(returnUrl);
+        }
+        else
+        {
+            return RedirectToAction(nameof(HomeController.Index), "Home");
+        }
     }
 }
