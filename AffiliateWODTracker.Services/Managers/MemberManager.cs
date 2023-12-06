@@ -1,4 +1,5 @@
-﻿using AffiliateWODTracker.Core.ViewModels;
+﻿using AffiliateWODTracker.Core.Models;
+using AffiliateWODTracker.Core.ViewModels;
 using AffiliateWODTracker.Data.Interfaces;
 using AffiliateWODTracker.Services.Interfaces;
 using AutoMapper;
@@ -35,6 +36,17 @@ namespace AffiliateWODTracker.Services.Managers
                 return _mapper.Map<List<MemberViewModel>>(members.ToList());
             }
             return null;
+        }
+
+        public async Task UpdateMemberToAccepted(int memberId)
+        {
+            var memberEntity = await _memberRepository.FindMemberById(memberId);
+
+            memberEntity.StatusId = 1;
+
+            await _memberRepository.UpdateAsync(memberEntity);
+
+
         }
 
         public async Task DeleteMember(int memberId)

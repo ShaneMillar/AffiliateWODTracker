@@ -1,7 +1,6 @@
 ﻿@using AffiliateWODTracker.Core.ViewModels
 @model AffiliateViewModel
 
-
 <div class="container my-3">
     <div class="card">
         <div class="card-body text-center">
@@ -9,6 +8,8 @@
             {
                 <h5 class="card-title">@Model.Name</h5>
                 <h6 class="card-subtitle mb-2 text-muted">@Model.Address</h6>
+                <h6 class="card-subtitle mb-2 text-muted">Active Members: @Model.ActiveMembersCount</h6>
+                <h6 class="card-subtitle mb-2 text-muted">Pending Requests: @Model.PendingRequestsCount</h6>
 
                 <div class="my-3">
                     <a asp-controller="Members" asp-action="MyRequests" class="btn btn-custom">Incoming Requests</a>

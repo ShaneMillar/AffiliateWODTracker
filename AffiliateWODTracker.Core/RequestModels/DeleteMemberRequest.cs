@@ -1,6 +1,6 @@
 ﻿namespace AffiliateWODTracker.Core.RequestModels
 {
-    public class DeleteMemberRequest
+    public class MemberActionRequest
     {
         public int MemberId { get; set; }
     }

@@ -34,7 +34,7 @@ namespace AffiliateWODTracker.Data.Repositories
             return await _context.Affiliates
                 .Include(a => a.Owner)
                 .Where(a => a.Owner.Id == userId)
-                .FirstAsync();
+                .FirstOrDefaultAsync();
         }
 
 

@@ -44,6 +44,17 @@ namespace AffiliateWODTracker.Data.Repositories
             return members;
         }
 
+        public async Task<MemberEntity> FindMemberById(int id)
+        {
+            return await _context.Members.FindAsync(id);
+        }
+
+        public async Task UpdateAsync(MemberEntity member)
+        {
+            _context.Members.Update(member);
+            await _context.SaveChangesAsync();
+        }
+
         public async Task DeleteAsync(int id)
         {
             var member = await _context.Members.FindAsync(id);

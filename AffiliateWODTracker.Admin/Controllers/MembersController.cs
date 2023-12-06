@@ -22,15 +22,18 @@ namespace AffiliateWODTracker.Admin.Controllers
             var userId = User.FindFirstValue(ClaimTypes.NameIdentifier); // Get user ID from the logged-in user
             var affiliate = await _affiliateManager.GetAffiliateByUserId(userId);
 
-            //Get Members by AffiliateId
-           var members = await _memberManager.GetMembersByAffiliateId(affiliate.AffiliateId);
-
-            return View(members); //Pass in list of MemberViewModel
+            if (affiliate != null)
+            {
+                //Get Members by AffiliateId
+                var members = await _memberManager.GetMembersByAffiliateId(affiliate.AffiliateId);
+                return View(members); //Pass in list of MemberViewModel
+            }
+            return View();
         }
 
         [HttpPost]
         [ValidateAntiForgeryToken]
-        public async Task<IActionResult> RemoveMember([FromBody] DeleteMemberRequest member)
+        public async Task<IActionResult> RemoveMember([FromBody] MemberActionRequest member)
         {
             await _memberManager.DeleteMember(member.MemberId);
 
@@ -43,10 +46,24 @@ namespace AffiliateWODTracker.Admin.Controllers
             var userId = User.FindFirstValue(ClaimTypes.NameIdentifier); // Get user ID from the logged-in user
             var affiliate = await _affiliateManager.GetAffiliateByUserId(userId);
 
-            //Get Requested Members by AffiliateId
-            var members = await _memberManager.GetRequestedMembersByAffiliateId(affiliate.AffiliateId);
+            if (affiliate != null)
+            {
+                //Get Requested Members by AffiliateId
+                var members = await _memberManager.GetRequestedMembersByAffiliateId(affiliate.AffiliateId);
 
-            return View(members); //Pass in list of MemberViewModel
+                return View(members); //Pass in list of MemberViewModel
+            }
+            return View();
+        }
+
+        [HttpPut]
+        [ValidateAntiForgeryToken]
+        public async Task<IActionResult> AcceptMember([FromBody] MemberActionRequest memberRequest)
+        {
+            await _memberManager.UpdateMemberToAccepted(memberRequest.MemberId);
+
+            return RedirectToAction("MyRequests");
+
         }
     }
 }

@@ -86,7 +86,7 @@ public class AccountController : Controller
         }
         else
         {
-            return RedirectToAction(nameof(AffiliateController.MyAffiliate), "Affiliate");
+            return RedirectToAction(nameof(HomeController.Index), "Home");
         }
     }
     #endregion 

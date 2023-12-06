@@ -11,31 +11,83 @@
     }
 }
 
-<div class="container">
-    <div class="row row-cols-1 row-cols-md-5 g-4">
-        @foreach (var member in Model)
-        {
-            <div class="col">
-                <div class="card h-100">
-                    <div class="card-body">
-                        <h5 class="card-title">@member.FirstName @member.LastName</h5>
-                        <p class="card-text">@member.Address</p>
-                        <p class="card-text">Age: @CalculateAge(member.DateOfBirth)</p>
-                    </div>
-                    <div class="card-footer">
-                        <button type="button" class="btn btn-custom" data-toggle="modal" data-target="#rejectConfirmationModal" id="rejectButton" data-memberid="@member.MemberId">
-                            Reject
-                        </button>
-                        <button type="button" class="btn btn-custom" data-toggle="modal" data-target="#approveConfirmationModal" id="approveButton" data-memberid="@member.MemberId">
-                            Accept
-                        </button>
+@if (Model != null && Model.Any())
+{
+    <div class="container">
+        <div class="row row-cols-1 row-cols-md-5 g-4">
+            @foreach (var member in Model)
+            {
+                <div class="col">
+                    <div class="card h-100">
+                        <div class="card-body">
+                            <h5 class="card-title">@member.FirstName @member.LastName</h5>
+                            <p class="card-text">@member.Address</p>
+                            <p class="card-text">Age: @CalculateAge(member.DateOfBirth)</p>
+                        </div>
+                        <div class="card-footer">
+                            <button type="button" class="btn btn-custom" data-toggle="modal" data-target="#rejectConfirmationModal" id="rejectButton" data-memberid="@member.MemberId">
+                                Reject
+                            </button>
+                            <button type="button" class="btn btn-custom" data-toggle="modal" data-target="#acceptConfirmationModal" id="acceptButton" data-memberid="@member.MemberId">
+                                Accept
+                            </button>
+                        </div>
                     </div>
                 </div>
+            }
+        </div>
+    </div>
+}
+else
+{
+    <div class="text-center">
+        <p>There are no active requests to join this affiliate.</p>
+        <a asp-controller="Affiliate" asp-action="MyAffiliate" class="btn btn-custom">My Affiliate</a>
+    </div>
+}
+
+@* Approval Modal *@
+<div class="modal fade" id="acceptConfirmationModal" tabindex="-1" role="dialog" aria-labelledby="acceptConfirmationModal" aria-hidden="true">
+    <div class="modal-dialog" role="document">
+        <div class="modal-content">
+            <div class="modal-header">
+                <h5 class="modal-title" id="acceptConfirmationModalLabel">Accept Member</h5>
+                <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+                    <span aria-hidden="true">&times;</span>
+                </button>
             </div>
-        }
+            <div class="modal-body">
+                Are you sure you wish to Accept this member into your Affiliate?
+            </div>
+            <div class="modal-footer">
+                <button type="button" class="btn btn-secondary" data-dismiss="modal">No</button>
+                <button type="button" class="btn btn-success" onclick="handleMemberAccept()" id="confirmAcceptButton">Yes</button>
+            </div>
+        </div>
     </div>
 </div>
 
+
+@* Reject Modal *@
+<div class="modal fade" id="rejectConfirmationModal" tabindex="-1" role="dialog" aria-labelledby="rejectConfirmationModal" aria-hidden="true">
+    <div class="modal-dialog" role="document">
+        <div class="modal-content">
+            <div class="modal-header">
+                <h5 class="modal-title" id="rejectConfirmationModalLabel">Reject Member</h5>
+                <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+                    <span aria-hidden="true">&times;</span>
+                </button>
+            </div>
+            <div class="modal-body">
+                Are you sure you wish to Reject this member from accessing your Affiliate?
+            </div>
+            <div class="modal-footer">
+                <button type="button" class="btn btn-secondary" data-dismiss="modal">No</button>
+                <button type="button" class="btn btn-danger" onclick="handleMemberReject()" id="confirmRejectButton">Yes</button>
+            </div>
+        </div>
+    </div>
+</div>
 
 <style>
     .card {
@@ -43,4 +95,72 @@
     }
 </style>
 
+@section Scripts {
+    <script>
+        function handleMemberAccept() {
+            var memberId = $('#acceptButton').data('memberid'); // Retrieve the member ID from the button
+            var removeUrl = '/Members/AcceptMember';
+
+            fetch(removeUrl, {
+                method: 'PUT',
+                headers: {
+                    'Content-Type': 'application/json',
+                    'RequestVerificationToken': document.querySelector('input[name="__RequestVerificationToken"]').value
+                },
+                body: JSON.stringify({ memberId: memberId })
+            })
+                .then(response => {
+                    if (response.ok) {
+                        location.reload(); // Or use JavaScript to remove the row from the DOM
+                    } else {
+                        // Handle error here
+                        console.error('Accept failed.');
+                    }
+                })
+                .catch(error => {
+                    console.error('Error:', error);
+                });
+
+            $('#acceptConfirmationModal').on('show.bs.modal', function (event) {
+                var button = $(event.relatedTarget); // Button that triggered the modal
+                var memberId = button.data('memberid'); // Extract info from data-* attributes
+                var modal = $(this);
+                modal.find('#acceptButton').data('memberid', memberId); // Set the data-memberid attribute on the confirm button
+            });
+        }
+
+
+        function handleMemberReject() {
+            var memberId = $('#rejectButton').data('memberid'); // Retrieve the member ID from the button
+            var removeUrl = '/Members/RejectMember';
+
+            fetch(removeUrl, {
+                method: 'PUT',
+                headers: {
+                    'Content-Type': 'application/json',
+                    'RequestVerificationToken': document.querySelector('input[name="__RequestVerificationToken"]').value
+                },
+                body: JSON.stringify({ memberId: memberId })
+            })
+                .then(response => {
+                    if (response.ok) {
+                        location.reload(); // Or use JavaScript to remove the row from the DOM
+                    } else {
+                        // Handle error here
+                        console.error('Reject failed.');
+                    }
+                })
+                .catch(error => {
+                    console.error('Error:', error);
+                });
+
+            $('#rejectConfirmationModal').on('show.bs.modal', function (event) {
+                var button = $(event.relatedTarget); // Button that triggered the modal
+                var memberId = button.data('memberid'); // Extract info from data-* attributes
+                var modal = $(this);
+                modal.find('#rejectButton').data('memberid', memberId); // Set the data-memberid attribute on the confirm button
+            });
+        }
+    </script>
+}
 

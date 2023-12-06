@@ -7,6 +7,9 @@ namespace AffiliateWODTracker.Data.Interfaces
         Task<IEnumerable<MemberEntity>> GetAllMembersAssociatedWithAffiliate(int affiliateId);
 
         Task<IEnumerable<MemberEntity>> GetRequestedMembersByAffiliateId(int affiliateId);
+        Task<MemberEntity> FindMemberById(int id);
+
+        Task UpdateAsync(MemberEntity member);
         Task DeleteAsync(int id);
     }
 }
