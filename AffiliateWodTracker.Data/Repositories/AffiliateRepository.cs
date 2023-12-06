@@ -28,26 +28,13 @@ namespace AffiliateWODTracker.Data.Repositories
 
         }
 
-        public async Task<AffiliateViewModel> GetAffiliateByUserIdAsync(string userId)
+        public async Task<AffiliateEntity> GetAffiliateByUserIdAsync(string userId)
         {
             // Attempt to retrieve the affiliate associated with the user
-            var affiliate = await _context.Affiliates
+            return await _context.Affiliates
                 .Include(a => a.Owner)
                 .Where(a => a.Owner.Id == userId)
-                .FirstOrDefaultAsync();
-
-            if (affiliate == null)
-            {
-                return null; 
-            }
-
-            // If not null, map the entity to the model
-            return new AffiliateViewModel
-            {
-                AffiliateId = affiliate.AffiliateId,
-                Name = affiliate.Name,
-                Address = affiliate.Address
-            };
+                .FirstAsync();
         }
 
 

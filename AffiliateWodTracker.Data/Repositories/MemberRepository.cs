@@ -1,4 +1,5 @@
 ﻿using AffiliateWODTracker.Core.ViewModels;
+using AffiliateWODTracker.Data.DataModels;
 using AffiliateWODTracker.Data.Interfaces;
 using Microsoft.EntityFrameworkCore;
 
@@ -13,25 +14,9 @@ namespace AffiliateWODTracker.Data.Repositories
             _context = context;
         }
 
-        public async Task<IEnumerable<MemberViewModel>> GetAllMembersAssociatedWithAffiliate(int affiliateId)
+        public async Task<IEnumerable<MemberEntity>> GetAllMembersAssociatedWithAffiliate(int affiliateId)
         {
-            var members = await _context.Members.Where(m => m.AffiliateId == affiliateId).ToListAsync();
-
-            if (members.Any())
-            {
-                return members.Select(m => new MemberViewModel { 
-                MemberId = m.MemberId,
-                FirstName = m.FirstName,
-                LastName = m.LastName,
-                Email = m.Email,
-                PhoneNumber = m.PhoneNumber,
-                DateOfBirth = m.DateOfBirth,
-                Address = m.Address,
-                AffiliateId = affiliateId
-                });
-            }
-
-            return null;
+            return await _context.Members.Where(m => m.AffiliateId == affiliateId).ToListAsync();
         }
 
         public async Task DeleteAsync(int id)

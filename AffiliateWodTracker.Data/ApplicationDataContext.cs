@@ -9,18 +9,24 @@ public class ApplicationDataContext : IdentityDbContext<OwnerEntity>
     {
     }
 
+    //Admin Entities
     public DbSet<AffiliateEntity> Affiliates { get; set; }
+    public DbSet<MemberEntity> Members { get; set; }
+
+
+    //Mobile App Entities
     public DbSet<WODEntity> WODs { get; set; }
     public DbSet<ScoreEntity> Scores { get; set; }
     public DbSet<CommentEntity> Comments { get; set; }
 
-    public DbSet<MemberEntity> Members { get; set; }
 
 
     protected override void OnModelCreating(ModelBuilder modelBuilder)
     {
 
         base.OnModelCreating(modelBuilder);
+
+        #region Admin
 
         //Configure Owner - Affiliate Relationship
         modelBuilder.Entity<OwnerEntity>()
@@ -37,6 +43,11 @@ public class ApplicationDataContext : IdentityDbContext<OwnerEntity>
             .HasForeignKey(w => w.AffiliateId)
             .OnDelete(DeleteBehavior.Restrict); // Prevent cascading delete on WODs when an Affiliate is deleted
 
+        #endregion
+
+
+        #region Mobile
+
         // Configure Score - User relationship
         //modelBuilder.Entity<ScoreEntity>()
         //    .HasOne(s => s.User)
@@ -51,19 +62,15 @@ public class ApplicationDataContext : IdentityDbContext<OwnerEntity>
             .HasForeignKey(s => s.WODId)
             .OnDelete(DeleteBehavior.Restrict); 
 
-        // Configure Comment - User relationship
-        //modelBuilder.Entity<CommentEntity>()
-        //    .HasOne(c => c.User)
-        //    .WithMany(u => u.Comments)
-        //    .HasForeignKey(c => c.UserId)
-        //    .OnDelete(DeleteBehavior.Restrict); 
 
         // Configure Comment - WOD relationship
         modelBuilder.Entity<CommentEntity>()
             .HasOne(c => c.WOD)
             .WithMany(w => w.Comments)
             .HasForeignKey(c => c.WODId)
-            .OnDelete(DeleteBehavior.Restrict); 
+            .OnDelete(DeleteBehavior.Restrict);
+
+        #endregion
     }
 
 }

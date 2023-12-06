@@ -3,6 +3,7 @@ using AffiliateWODTracker.Data.Interfaces;
 using AffiliateWODTracker.Data.Repositories;
 using AffiliateWODTracker.Services.Interfaces;
 using AffiliateWODTracker.Services.Managers;
+using AffiliateWODTracker.Services.Services;
 using Microsoft.AspNetCore.Identity;
 using Microsoft.EntityFrameworkCore;
 
@@ -40,6 +41,10 @@ builder.Services.AddScoped<IMemberRepository, MemberRepository>();
 //Managers
 builder.Services.AddScoped<IAffiliateManager, AffiliateManager>();
 builder.Services.AddScoped<IMemberManager, MemberManager>();
+
+//Services
+builder.Services.AddAutoMapper(typeof(MappingService));
+
 
 var app = builder.Build();
 

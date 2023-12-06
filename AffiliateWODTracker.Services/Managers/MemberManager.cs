@@ -1,27 +1,29 @@
 ﻿using AffiliateWODTracker.Core.ViewModels;
 using AffiliateWODTracker.Data.Interfaces;
-using AffiliateWODTracker.Data.Repositories;
 using AffiliateWODTracker.Services.Interfaces;
+using AutoMapper;
 
 namespace AffiliateWODTracker.Services.Managers
 {
     public class MemberManager : IMemberManager
     {
         private readonly IMemberRepository _memberRepository;
-
-        public MemberManager(IMemberRepository memberRepository)
+        private readonly IMapper _mapper;
+        public MemberManager(IMemberRepository memberRepository, IMapper mapper)
         {
             _memberRepository = memberRepository;
+            _mapper = mapper;
         }
 
         public async Task<List<MemberViewModel>> GetMembersByAffiliateId(int affiliateId)
         {
             var members = await _memberRepository.GetAllMembersAssociatedWithAffiliate(affiliateId);
-            if (members == null)
+
+            if (members.Any())
             {
-                return null;
+                return _mapper.Map<List<MemberViewModel>>(members.ToList());
             }
-            return members.ToList();
+            return null;
         }
 
         public async Task DeleteMember(int memberId)

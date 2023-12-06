@@ -9,7 +9,7 @@ namespace AffiliateWODTracker.Data.Interfaces
     {
         Task<IEnumerable<Affiliate>> GetAllAsync();
         Task<Affiliate> GetByIdAsync(int id);
-        Task<AffiliateViewModel> GetAffiliateByUserIdAsync(string userId);
+        Task<AffiliateEntity> GetAffiliateByUserIdAsync(string userId);
         Task InsertAsync(AffiliateEntity affiliate);
         Task UpdateAsync(Affiliate affiliate);
         Task DeleteAsync(int id);

@@ -1,4 +1,5 @@
-﻿namespace AffiliateWODTracker.Core.ViewModels
+﻿
+namespace AffiliateWODTracker.Core.ViewModels
 {
     public class MemberViewModel
     {
@@ -10,6 +11,7 @@
         public string Address { get; set; }
         public int AffiliateId { get; set; }
         public DateTime DateOfBirth { get; set; }
+
 
     }
 }

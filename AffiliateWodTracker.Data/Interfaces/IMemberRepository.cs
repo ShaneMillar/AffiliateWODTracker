@@ -1,15 +1,10 @@
-﻿using AffiliateWODTracker.Core.ViewModels;
-using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
+﻿using AffiliateWODTracker.Data.DataModels;
 
 namespace AffiliateWODTracker.Data.Interfaces
 {
     public interface IMemberRepository
     {
-        Task<IEnumerable<MemberViewModel>> GetAllMembersAssociatedWithAffiliate(int affiliateId);
+        Task<IEnumerable<MemberEntity>> GetAllMembersAssociatedWithAffiliate(int affiliateId);
         Task DeleteAsync(int id);
     }
 }

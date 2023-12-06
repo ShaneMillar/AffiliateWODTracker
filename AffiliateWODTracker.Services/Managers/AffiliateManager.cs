@@ -2,24 +2,33 @@
 using AffiliateWODTracker.Data.DataModels;
 using AffiliateWODTracker.Data.Interfaces;
 using AffiliateWODTracker.Services.Interfaces;
+using AutoMapper;
 
 namespace AffiliateWODTracker.Services.Managers
 {
     public class AffiliateManager : IAffiliateManager
     {
         private readonly IAffiliateRepository _affiliateRepository;
+        private readonly IMapper _mapper;
 
 
-        public AffiliateManager(IAffiliateRepository affiliateRepository)
+        public AffiliateManager(IAffiliateRepository affiliateRepository, IMapper mapper)
         {
             _affiliateRepository = affiliateRepository;
+            _mapper = mapper;
+
         }
 
         public async Task<AffiliateViewModel> GetAffiliateByUserId(string userId)
         {
             var affiliate = await _affiliateRepository.GetAffiliateByUserIdAsync(userId);
 
-            return affiliate;
+            if(affiliate != null)
+            {
+                return _mapper.Map<AffiliateViewModel>(affiliate);
+            }
+
+            return null;
         }
 
         public async Task CreateAffiliate(AffiliateEntity affiliate)
