@@ -16,8 +16,7 @@
     <table class="table">
         <thead>
             <tr>
-                <th>First name</th>
-                <th>Last name</th>
+                <th>Name</th>
                 <th>Email</th>
                 <th>Phone Number</th>
                 <th>Address</th>
@@ -29,14 +28,15 @@
             @foreach (var member in Model)
             {
                 <tr>
-                    <td>@member.FirstName</td>
-                    <td>@member.LastName</td>
+                    <td>@member.FirstName @member.LastName</td>
                     <td>@member.Email</td>
                     <td>@member.PhoneNumber</td>
                     <td>@member.Address</td>
                     <td>@CalculateAge(member.DateOfBirth)</td>
                     <td>
-                        <button type="button" class="btn btn-custom" onclick="removeMember(@member.Id)">Remove</button>
+                        <button type="button" class="btn btn-danger" data-toggle="modal" data-target="#removeConfirmationModal" id="removeButton" data-memberid="@member.Id">
+                            Remove
+                        </button>
                     </td>
                 </tr>
             }
@@ -50,17 +50,35 @@ else
     </div>
 }
 
+<div class="modal fade" id="removeConfirmationModal" tabindex="-1" role="dialog" aria-labelledby="removeConfirmationModal" aria-hidden="true">
+    <div class="modal-dialog" role="document">
+        <div class="modal-content">
+            <div class="modal-header">
+                <h5 class="modal-title" id="removeConfirmationModalLabel">Remove Member</h5>
+                <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+                    <span aria-hidden="true">&times;</span>
+                </button>
+            </div>
+            <div class="modal-body">
+                Are you sure you wish to Remove this member from your Affiliate?
+            </div>
+            <div class="modal-footer">
+                <button type="button" class="btn btn-secondary" data-dismiss="modal">No</button>
+                <!-- The confirm button now calls handleMemberRemoval without an ID -->
+                <button type="button" class="btn btn-danger" onclick="handleMemberRemoval()" id="confirmRemoveButton">Yes</button>
+            </div>
+        </div>
+    </div>
+</div>
+
 @section Scripts {
     <script>
-        function removeMember(memberId) {
-            // Confirm with the user
-            if (!confirm("Are you sure you want to remove this member?")) {
-                return;
-            }
-
+        function handleMemberRemoval() {
+            var memberId = $('#removeButton').data('memberid'); // Retrieve the member ID from the button
             // Proceed with removal logic
             // Make sure to replace 'YourRemoveMemberEndpoint' with the actual endpoint
-            var removeUrl = '@Url.Action("RemoveMember", "YourController")';
+            console.log(memberId);
+            var removeUrl = '/Members/RemoveMember';
 
             fetch(removeUrl, {
                 method: 'POST',
@@ -82,6 +100,13 @@ else
                 .catch(error => {
                     console.error('Error:', error);
                 });
+
+            $('#removeConfirmationModal').on('show.bs.modal', function (event) {
+                var button = $(event.relatedTarget); // Button that triggered the modal
+                var memberId = button.data('memberid'); // Extract info from data-* attributes
+                var modal = $(this);
+                modal.find('#removeButton').data('memberid', memberId); // Set the data-memberid attribute on the confirm button
+            });
         }
     </script>
 }

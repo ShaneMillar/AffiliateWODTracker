@@ -1,5 +1,6 @@
 ﻿using AffiliateWODTracker.Core.ViewModels;
 using AffiliateWODTracker.Data.Interfaces;
+using AffiliateWODTracker.Data.Repositories;
 using AffiliateWODTracker.Services.Interfaces;
 
 namespace AffiliateWODTracker.Services.Managers
@@ -21,6 +22,11 @@ namespace AffiliateWODTracker.Services.Managers
                 return null;
             }
             return members.ToList();
+        }
+
+        public async Task DeleteMember(int memberId)
+        {
+            await _memberRepository.DeleteAsync(memberId);
         }
     }
 }

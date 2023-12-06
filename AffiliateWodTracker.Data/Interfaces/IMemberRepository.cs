@@ -10,5 +10,6 @@ namespace AffiliateWODTracker.Data.Interfaces
     public interface IMemberRepository
     {
         Task<IEnumerable<MemberViewModel>> GetAllMembersAssociatedWithAffiliate(int affiliateId);
+        Task DeleteAsync(int id);
     }
 }

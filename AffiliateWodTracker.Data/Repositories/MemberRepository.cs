@@ -33,5 +33,15 @@ namespace AffiliateWODTracker.Data.Repositories
 
             return null;
         }
+
+        public async Task DeleteAsync(int id)
+        {
+            var member = await _context.Members.FindAsync(id);
+            if (member != null)
+            {
+                _context.Members.Remove(member);
+                await _context.SaveChangesAsync();
+            }
+        }
     }
 }

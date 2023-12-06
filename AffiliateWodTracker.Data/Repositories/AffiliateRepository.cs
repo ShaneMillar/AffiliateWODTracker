@@ -73,10 +73,10 @@ namespace AffiliateWODTracker.Data.Repositories
 
         public async Task DeleteAsync(int id)
         {
-            var user = await _context.Affiliates.FindAsync(id);
-            if (user != null)
+            var affilate = await _context.Affiliates.FindAsync(id);
+            if (affilate != null)
             {
-                _context.Affiliates.Remove(user);
+                _context.Affiliates.Remove(affilate);
                 await _context.SaveChangesAsync();
             }
         }

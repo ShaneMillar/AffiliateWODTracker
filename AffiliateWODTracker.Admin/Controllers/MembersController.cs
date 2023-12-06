@@ -1,4 +1,5 @@
-﻿using AffiliateWODTracker.Services.Interfaces;
+﻿using AffiliateWODTracker.Core.RequestModels;
+using AffiliateWODTracker.Services.Interfaces;
 using Microsoft.AspNetCore.Mvc;
 using System.Diagnostics.CodeAnalysis;
 using System.Security.Claims;
@@ -25,6 +26,16 @@ namespace AffiliateWODTracker.Admin.Controllers
            var members = await _memberManager.GetMembersByAffiliateId(affiliate.Id);
 
             return View(members); //Pass in list of MemberViewModel
+        }
+
+        [HttpPost]
+        [ValidateAntiForgeryToken]
+        public async Task<IActionResult> RemoveMember([FromBody] DeleteMemberRequest member)
+        {
+            await _memberManager.DeleteMember(member.MemberId);
+
+            return RedirectToAction("MyAffiliate");
+
         }
     }
 }
