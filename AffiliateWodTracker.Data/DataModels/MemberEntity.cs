@@ -12,8 +12,14 @@ namespace AffiliateWODTracker.Data.DataModels
         public string PhoneNumber { get; set; }
         public string Address { get; set; }
         public int AffiliateId { get; set; }
+        public int StatusId { get; set; }
+
         public DateTime DateOfBirth { get; set; }
-        public virtual AffiliateEntity Affiliate { get; set; }
+
+        // Navigation properties
+        public virtual AffiliateEntity Affiliate { get; set; } 
+
+        public virtual StatusEntity Status { get; set; }
 
     }
 }

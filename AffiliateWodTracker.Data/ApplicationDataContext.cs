@@ -19,6 +19,8 @@ public class ApplicationDataContext : IdentityDbContext<OwnerEntity>
     public DbSet<ScoreEntity> Scores { get; set; }
     public DbSet<CommentEntity> Comments { get; set; }
 
+    public DbSet<StatusEntity> Status { get; set; }
+
 
 
     protected override void OnModelCreating(ModelBuilder modelBuilder)
@@ -69,6 +71,14 @@ public class ApplicationDataContext : IdentityDbContext<OwnerEntity>
             .WithMany(w => w.Comments)
             .HasForeignKey(c => c.WODId)
             .OnDelete(DeleteBehavior.Restrict);
+
+        // Configure Member - Status relationship
+
+        modelBuilder.Entity<MemberEntity>()
+         .HasOne(m => m.Status)
+         .WithMany()
+         .HasForeignKey(m => m.StatusId)
+         .OnDelete(DeleteBehavior.Restrict);
 
         #endregion
     }
