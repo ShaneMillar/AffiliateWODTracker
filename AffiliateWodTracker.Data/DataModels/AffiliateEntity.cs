@@ -1,11 +1,13 @@
 ﻿using AffiliateWODTracker.Core.Models;
 using Microsoft.AspNetCore.Identity;
+using System.ComponentModel.DataAnnotations;
 
 namespace AffiliateWODTracker.Data.DataModels
 {
     public class AffiliateEntity
     {
-        public int Id { get; set; }
+        [Key]
+        public int AffiliateId { get; set; }
         public string Name { get; set; }
         public string Address { get; set; }
 

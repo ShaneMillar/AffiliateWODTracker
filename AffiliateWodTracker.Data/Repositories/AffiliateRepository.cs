@@ -21,7 +21,7 @@ namespace AffiliateWODTracker.Data.Repositories
 
             return affiliates.Select(a => new Affiliate
             {
-                Id = a.Id,
+                AffiliateId = a.AffiliateId,
                 Name = a.Name,
                 // Map other properties as needed
             }).ToList();
@@ -44,7 +44,7 @@ namespace AffiliateWODTracker.Data.Repositories
             // If not null, map the entity to the model
             return new AffiliateViewModel
             {
-                Id = affiliate.Id,
+                AffiliateId = affiliate.AffiliateId,
                 Name = affiliate.Name,
                 Address = affiliate.Address
             };

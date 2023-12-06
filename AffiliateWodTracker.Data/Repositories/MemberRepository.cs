@@ -20,7 +20,7 @@ namespace AffiliateWODTracker.Data.Repositories
             if (members.Any())
             {
                 return members.Select(m => new MemberViewModel { 
-                Id = m.Id,
+                MemberId = m.MemberId,
                 FirstName = m.FirstName,
                 LastName = m.LastName,
                 Email = m.Email,

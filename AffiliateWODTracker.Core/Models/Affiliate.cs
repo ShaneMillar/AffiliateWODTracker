@@ -2,7 +2,7 @@
 {
     public class Affiliate
     {
-        public int Id { get; set; }
+        public int AffiliateId { get; set; }
         public string Name { get; set; }
         public string Address { get; set; }
         public virtual ICollection<User> Users { get; set; } // Navigation property for users

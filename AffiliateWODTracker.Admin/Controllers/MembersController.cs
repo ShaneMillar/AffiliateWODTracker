@@ -23,7 +23,7 @@ namespace AffiliateWODTracker.Admin.Controllers
             var affiliate = await _affiliateManager.GetAffiliateByUserId(userId);
 
             //Get Members by AffiliateId
-           var members = await _memberManager.GetMembersByAffiliateId(affiliate.Id);
+           var members = await _memberManager.GetMembersByAffiliateId(affiliate.AffiliateId);
 
             return View(members); //Pass in list of MemberViewModel
         }

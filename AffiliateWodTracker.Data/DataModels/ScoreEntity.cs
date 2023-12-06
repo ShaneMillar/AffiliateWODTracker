@@ -1,8 +1,11 @@
-﻿namespace AffiliateWODTracker.Data.DataModels
+﻿using System.ComponentModel.DataAnnotations;
+
+namespace AffiliateWODTracker.Data.DataModels
 {
     public class ScoreEntity
     {
-        public int Id { get; set; }
+        [Key]
+        public int ScoreId { get; set; }
         public int UserId { get; set; }
         public int WODId { get; set; }
         public virtual WODEntity WOD { get; set; } 

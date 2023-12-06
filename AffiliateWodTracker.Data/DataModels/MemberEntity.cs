@@ -1,8 +1,11 @@
-﻿namespace AffiliateWODTracker.Data.DataModels
+﻿using System.ComponentModel.DataAnnotations;
+
+namespace AffiliateWODTracker.Data.DataModels
 {
     public class MemberEntity
     {
-        public int Id { get; set; }
+        [Key]
+        public int MemberId { get; set; }
         public string FirstName { get; set; }
         public string LastName { get; set; }
         public string Email { get; set; }
