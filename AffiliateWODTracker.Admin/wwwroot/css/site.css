@@ -33,24 +33,14 @@
     }
 
 /* Custom button styles */
-.btn-custom-login {
-    background-color: #4CAF50; /* Green */
-    border-color: #4CAF50; /* Green */
+.btn-custom {
+    background-color: #18140F; /* Black */
+    border-color: #18140F; /* Black */
     color: white;
 }
 
-    .btn-custom-login:hover {
-        background-color: #45A049; /* Darker green */
-        border-color: #45A049;
-    }
-
-.btn-custom-register {
-    background-color: #f0ad4e; /* Orange */
-    border-color: #f0ad4e; /* Orange */
-    color: white;
+.btn-custom:hover {
+    background-color: white; /* Darker green */
+    border-color: white;
+    color: #18140F;
 }
-
-    .btn-custom-register:hover {
-        background-color: #ec971f; /* Darker orange */
-        border-color: #ec971f;
-    }
