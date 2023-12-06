@@ -19,7 +19,16 @@ namespace AffiliateWODTracker.Data.Repositories
 
             if (members.Any())
             {
-                return members.Select(m => new MemberViewModel());
+                return members.Select(m => new MemberViewModel { 
+                Id = m.Id,
+                FirstName = m.FirstName,
+                LastName = m.LastName,
+                Email = m.Email,
+                PhoneNumber = m.PhoneNumber,
+                DateOfBirth = m.DateOfBirth,
+                Address = m.Address,
+                AffiliateId = affiliateId
+                });
             }
 
             return null;

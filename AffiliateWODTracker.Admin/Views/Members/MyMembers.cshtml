@@ -1,6 +1,16 @@
 ﻿@using AffiliateWODTracker.Core.ViewModels
 @model List<MemberViewModel>
 
+@functions {
+    public static int CalculateAge(DateTime dateOfBirth)
+    {
+        var today = DateTime.Today;
+        var age = today.Year - dateOfBirth.Year;
+        if (dateOfBirth.Date > today.AddYears(-age)) age--;
+        return age;
+    }
+}
+
 @if (Model != null && Model.Any())
 {
     <table class="table">
@@ -8,8 +18,10 @@
             <tr>
                 <th>First name</th>
                 <th>Last name</th>
-                @* <th>Email</th> *@
-                <!-- Add other member properties here -->
+                <th>Email</th>
+                <th>Phone Number</th>
+                <th>Address</th>
+                <th>Age</th>
                 <th>Actions</th>
             </tr>
         </thead>
@@ -19,10 +31,12 @@
                 <tr>
                     <td>@member.FirstName</td>
                     <td>@member.LastName</td>
-                    @* <td>@member.Email</td> *@
-                    <!-- Add other member properties here -->
+                    <td>@member.Email</td>
+                    <td>@member.PhoneNumber</td>
+                    <td>@member.Address</td>
+                    <td>@CalculateAge(member.DateOfBirth)</td>
                     <td>
-                        <button type="button" class="btn btn-danger" onclick="removeMember(@member.Id)">Remove</button>
+                        <button type="button" class="btn btn-custom" onclick="removeMember(@member.Id)">Remove</button>
                     </td>
                 </tr>
             }
