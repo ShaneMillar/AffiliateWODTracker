@@ -1,0 +1,73 @@
+﻿@using AffiliateWODTracker.Core.ViewModels
+@model List<MemberViewModel>
+
+@if (Model != null && Model.Any())
+{
+    <table class="table">
+        <thead>
+            <tr>
+                <th>First name</th>
+                <th>Last name</th>
+                @* <th>Email</th> *@
+                <!-- Add other member properties here -->
+                <th>Actions</th>
+            </tr>
+        </thead>
+        <tbody>
+            @foreach (var member in Model)
+            {
+                <tr>
+                    <td>@member.FirstName</td>
+                    <td>@member.LastName</td>
+                    @* <td>@member.Email</td> *@
+                    <!-- Add other member properties here -->
+                    <td>
+                        <button type="button" class="btn btn-danger" onclick="removeMember(@member.Id)">Remove</button>
+                    </td>
+                </tr>
+            }
+        </tbody>
+    </table>
+}
+else
+{
+    <div class="text-center">
+    <p>There are no active members in this affiliate.</p>
+    </div>
+}
+
+@section Scripts {
+    <script>
+        function removeMember(memberId) {
+            // Confirm with the user
+            if (!confirm("Are you sure you want to remove this member?")) {
+                return;
+            }
+
+            // Proceed with removal logic
+            // Make sure to replace 'YourRemoveMemberEndpoint' with the actual endpoint
+            var removeUrl = '@Url.Action("RemoveMember", "YourController")';
+
+            fetch(removeUrl, {
+                method: 'POST',
+                headers: {
+                    'Content-Type': 'application/json',
+                    'RequestVerificationToken': document.querySelector('input[name="__RequestVerificationToken"]').value
+                },
+                body: JSON.stringify({ memberId: memberId })
+            })
+                .then(response => {
+                    if (response.ok) {
+                        // If removal was successful, remove the row from the table or refresh the page
+                        location.reload(); // Or use JavaScript to remove the row from the DOM
+                    } else {
+                        // Handle error here
+                        console.error('Removal failed.');
+                    }
+                })
+                .catch(error => {
+                    console.error('Error:', error);
+                });
+        }
+    </script>
+}

@@ -1,11 +1,8 @@
-﻿using AffiliateWODTracker.Core.Models;
-using AffiliateWODTracker.Core.RequestModels;
+﻿using AffiliateWODTracker.Core.RequestModels;
 using AffiliateWODTracker.Data.DataModels;
 using AffiliateWODTracker.Services.Interfaces;
-using AffiliateWODTracker.Services.Managers;
 using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Mvc;
-using Microsoft.EntityFrameworkCore;
 using System.Security.Claims;
 
 namespace AffiliateWODTracker.Admin.Controllers

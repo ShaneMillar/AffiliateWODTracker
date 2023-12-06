@@ -13,7 +13,7 @@
         @if (SignInManager.IsSignedIn(User))
         {
             <a class="btn btn-custom" asp-controller="Affiliate" asp-action="MyAffiliate">My Affiliate</a>
-            <a class="btn btn-custom" asp-controller="" asp-action="">My Members</a>
+            <a class="btn btn-custom" asp-controller="Members" asp-action="MyMembers">My Members</a>
         }
         else{
         <a class="btn btn-custom" asp-controller="Account" asp-action="Login">Login</a>

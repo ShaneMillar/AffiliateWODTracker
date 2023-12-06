@@ -31,10 +31,12 @@ builder.Services.AddIdentity<OwnerEntity, IdentityRole>()
 // Repositories
 builder.Services.AddScoped<IUserRepository, UserRepository>();
 builder.Services.AddScoped<IAffiliateRepository, AffiliateRepository>();
-
+builder.Services.AddScoped<IMemberRepository, MemberRepository>();
 
 //Managers
 builder.Services.AddScoped<IAffiliateManager, AffiliateManager>();
+builder.Services.AddScoped<IMemberManager, MemberManager>();
+
 
 var app = builder.Build();
 

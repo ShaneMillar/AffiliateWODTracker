@@ -35,9 +35,11 @@ builder.Services.AddDatabaseDeveloperPageExceptionFilter();
 
 //Repositories
 builder.Services.AddScoped<IAffiliateRepository, AffiliateRepository>();
+builder.Services.AddScoped<IMemberRepository, MemberRepository>();
 
 //Managers
 builder.Services.AddScoped<IAffiliateManager, AffiliateManager>();
+builder.Services.AddScoped<IMemberManager, MemberManager>();
 
 var app = builder.Build();
 
