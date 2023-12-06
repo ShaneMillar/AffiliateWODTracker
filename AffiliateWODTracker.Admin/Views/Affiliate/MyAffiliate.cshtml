@@ -11,7 +11,7 @@
                 <h6 class="card-subtitle mb-2 text-muted">@Model.Address</h6>
 
                 <div class="my-3">
-                    <a href="YourIncomingRequestsLinkHere" class="btn btn-custom">Incoming Requests</a>
+                    <a asp-controller="Members" asp-action="MyRequests" class="btn btn-custom">Incoming Requests</a>
                     <a asp-controller="Members" asp-action="MyMembers" class="btn btn-custom">View Members</a>
                     <button type="button" class="btn btn-custom" data-toggle="modal" data-target="#deleteConfirmationModal">
                         Delete Affiliate

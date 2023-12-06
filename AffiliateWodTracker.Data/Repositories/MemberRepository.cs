@@ -16,7 +16,32 @@ namespace AffiliateWODTracker.Data.Repositories
 
         public async Task<IEnumerable<MemberEntity>> GetAllMembersAssociatedWithAffiliate(int affiliateId)
         {
-            return await _context.Members.Where(m => m.AffiliateId == affiliateId).ToListAsync();
+            var members = await _context.Members
+               .Where(m => m.AffiliateId == affiliateId)
+               .Join(_context.Status,
+                     member => member.StatusId,
+                     status => status.StatusId,
+                     (member, status) => new { Member = member, Status = status })
+               .Where(ms => ms.Status.Name == "Accepted")
+               .Select(ms => ms.Member)
+               .ToListAsync();
+
+            return members;
+        }
+
+        public async Task<IEnumerable<MemberEntity>> GetRequestedMembersByAffiliateId(int affiliateId)
+        {
+            var members = await _context.Members
+               .Where(m => m.AffiliateId == affiliateId)
+               .Join(_context.Status,
+                     member => member.StatusId,
+                     status => status.StatusId,
+                     (member, status) => new { Member = member, Status = status })
+               .Where(ms => ms.Status.Name == "Pending")
+               .Select(ms => ms.Member)
+               .ToListAsync();
+
+            return members;
         }
 
         public async Task DeleteAsync(int id)

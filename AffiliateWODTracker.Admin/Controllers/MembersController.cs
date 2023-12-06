@@ -37,5 +37,16 @@ namespace AffiliateWODTracker.Admin.Controllers
             return RedirectToAction("MyAffiliate");
 
         }
+
+        public async Task<IActionResult> MyRequests()
+        {
+            var userId = User.FindFirstValue(ClaimTypes.NameIdentifier); // Get user ID from the logged-in user
+            var affiliate = await _affiliateManager.GetAffiliateByUserId(userId);
+
+            //Get Requested Members by AffiliateId
+            var members = await _memberManager.GetRequestedMembersByAffiliateId(affiliate.AffiliateId);
+
+            return View(members); //Pass in list of MemberViewModel
+        }
     }
 }

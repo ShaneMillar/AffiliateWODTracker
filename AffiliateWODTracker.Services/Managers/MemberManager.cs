@@ -26,6 +26,17 @@ namespace AffiliateWODTracker.Services.Managers
             return null;
         }
 
+        public async Task<List<MemberViewModel>> GetRequestedMembersByAffiliateId(int affiliateId)
+        {
+            var members = await _memberRepository.GetRequestedMembersByAffiliateId(affiliateId);
+
+            if (members.Any())
+            {
+                return _mapper.Map<List<MemberViewModel>>(members.ToList());
+            }
+            return null;
+        }
+
         public async Task DeleteMember(int memberId)
         {
             await _memberRepository.DeleteAsync(memberId);
