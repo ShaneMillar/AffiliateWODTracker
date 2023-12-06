@@ -1,6 +1,7 @@
 ﻿
 using AffiliateWODTracker.Core.Models;
 using AffiliateWODTracker.Core.ViewModels;
+using AffiliateWODTracker.Data.DataModels;
 
 namespace AffiliateWODTracker.Data.Interfaces
 {
@@ -9,7 +10,7 @@ namespace AffiliateWODTracker.Data.Interfaces
         Task<IEnumerable<Affiliate>> GetAllAsync();
         Task<Affiliate> GetByIdAsync(int id);
         Task<AffiliateViewModel> GetAffiliateByUserIdAsync(string userId);
-        Task InsertAsync(Affiliate affiliate);
+        Task InsertAsync(AffiliateEntity affiliate);
         Task UpdateAsync(Affiliate affiliate);
         Task DeleteAsync(int id);
     }

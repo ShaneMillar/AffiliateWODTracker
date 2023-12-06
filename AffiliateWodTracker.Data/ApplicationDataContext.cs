@@ -38,6 +38,8 @@ public class ApplicationDataContext : IdentityDbContext<OwnerEntity>
             .HasForeignKey(w => w.AffiliateId)
             .OnDelete(DeleteBehavior.Restrict); // Prevent cascading delete on WODs when an Affiliate is deleted
 
+        //Configure Affiliate - Members
+
         // Configure Score - User relationship
         //modelBuilder.Entity<ScoreEntity>()
         //    .HasOne(s => s.User)

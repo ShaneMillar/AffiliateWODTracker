@@ -31,6 +31,12 @@
         margin-left: auto;
         margin-right: auto;
     }
+.logonav-class {
+    width: 65px; /* Adjust the width as needed */
+    display: block; /* To center in the container if needed */
+    margin-left: auto;
+    margin-right: auto;
+}
 
 /* Custom button styles */
 .btn-custom {

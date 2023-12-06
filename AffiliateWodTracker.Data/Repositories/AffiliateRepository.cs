@@ -44,6 +44,7 @@ namespace AffiliateWODTracker.Data.Repositories
             // If not null, map the entity to the model
             return new AffiliateViewModel
             {
+                Id = affiliate.Id,
                 Name = affiliate.Name,
                 Address = affiliate.Address
             };
@@ -56,10 +57,9 @@ namespace AffiliateWODTracker.Data.Repositories
             return new Affiliate();
         }
 
-        public async Task InsertAsync(Affiliate affiliate)
+        public async Task InsertAsync(AffiliateEntity affiliate)
         {
-            var dto = new AffiliateEntity();
-            await _context.Affiliates.AddAsync(dto);
+            await _context.Affiliates.AddAsync(affiliate);
             await _context.SaveChangesAsync();
         }
 

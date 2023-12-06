@@ -1,12 +1,7 @@
-﻿using AffiliateWODTracker.Core.Models;
-using AffiliateWODTracker.Core.ViewModels;
+﻿using AffiliateWODTracker.Core.ViewModels;
+using AffiliateWODTracker.Data.DataModels;
 using AffiliateWODTracker.Data.Interfaces;
 using AffiliateWODTracker.Services.Interfaces;
-using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
 
 namespace AffiliateWODTracker.Services.Managers
 {
@@ -27,7 +22,17 @@ namespace AffiliateWODTracker.Services.Managers
             return affiliate;
         }
 
+        public async Task CreateAffiliate(AffiliateEntity affiliate)
+        {
+           await _affiliateRepository.InsertAsync(affiliate);
+        }
+
+        public async Task DeleteAffiliate(int affiliateId)
+        {
+            await _affiliateRepository.DeleteAsync(affiliateId);
+        }
+
         //ADD Insert Affiliate
-     
+
     }
 }

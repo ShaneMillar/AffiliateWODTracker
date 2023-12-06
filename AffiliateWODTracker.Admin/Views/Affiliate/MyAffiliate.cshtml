@@ -1,15 +1,89 @@
 ﻿@using AffiliateWODTracker.Core.ViewModels
 @model AffiliateViewModel
 
-@if (Model != null)
-{
-    <h2>@Model.Name</h2>
-    <p>@Model.Address</p>
-    // Display other affiliate details
-    // List members
-}
-else
-{
-    <p>You do not have an affiliate.</p>
-    <a asp-action="CreateAffiliate" class="btn btn-custom">Create new Affiliate</a>
-}
+
+<div class="container my-3">
+    <div class="card">
+        <div class="card-body text-center">
+            @if (Model != null)
+            {
+                <h5 class="card-title">@Model.Name</h5>
+                <h6 class="card-subtitle mb-2 text-muted">@Model.Address</h6>
+
+                <div class="my-3">
+                    <a href="YourIncomingRequestsLinkHere" class="btn btn-custom">Incoming Requests</a>
+                    <a asp-controller="Members" asp-action="MyMembers" class="btn btn-custom">View Members</a>
+                    <button type="button" class="btn btn-custom" data-toggle="modal" data-target="#deleteConfirmationModal">
+                        Delete Affiliate
+                    </button>
+                </div>
+            }
+            else
+            {
+                <p>You do not have an affiliate.</p>
+                <a asp-action="CreateAffiliate" class="btn btn-custom">Create new Affiliate</a>
+            }
+        </div>
+    </div>
+</div>
+
+<!-- Delete Confirmation Modal -->
+  @if (Model != null)
+  {
+    <div class="modal fade" id="deleteConfirmationModal" tabindex="-1" role="dialog" aria-labelledby="deleteConfirmationModalLabel" aria-hidden="true">
+        <div class="modal-dialog" role="document">
+            <div class="modal-content">
+                <div class="modal-header">
+                    <h5 class="modal-title" id="deleteConfirmationModalLabel">Delete Affiliate</h5>
+                    <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+                        <span aria-hidden="true">&times;</span>
+                    </button>
+                </div>
+                <div class="modal-body">
+                    Are you sure you wish to delete this Affiliate? All active members will be removed!
+                </div>
+                <div class="modal-footer">
+                    <button type="button" class="btn btn-secondary" data-dismiss="modal">No</button>
+                    <button type="button" class="btn btn-danger" onclick="handleAffiliateDeletion(@Model.Id)">Yes</button>
+                </div>
+            </div>
+        </div>
+    </div>
+  }
+
+<script>
+    function handleAffiliateDeletion(affiliateId) {
+
+        // Call your server endpoint to delete the affiliate
+        // Replace the URL with the path to your deletion endpoint
+        console.log(affiliateId);
+        var deleteUrl = '/Affiliate/DeleteAffiliate';
+
+        fetch(deleteUrl, {
+            method: 'POST',
+            headers: {
+                // Add any necessary headers
+                'Content-Type': 'application/json',
+                'RequestVerificationToken': $('input[name="__RequestVerificationToken"]').val() // For ASP.NET Core anti-forgery token
+            },
+            body: JSON.stringify({ affiliateId: affiliateId }) // Replace with your affiliate ID
+        })
+            .then(response => {
+                if (response.ok) {
+                    // Close the modal
+                    $('#deleteConfirmationModal').modal('hide');
+
+                    // Optionally refresh the page or redirect
+                    location.reload();
+                } else {
+                    // Handle errors
+                    console.error('Deletion failed');
+                }
+            })
+            .catch(error => {
+                // Handle errors
+                console.error('Error:', error);
+            });
+    }
+
+</script>

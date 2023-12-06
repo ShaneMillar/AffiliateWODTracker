@@ -25,11 +25,6 @@ namespace AffiliateWODTracker.Admin.Controllers
 
             var affiliate = await _affiliateManager.GetAffiliateByUserId(userId);
 
-            //if (affiliate == null)
-            //{
-            //    // If the user does not have an affiliate, redirect to the create page
-            //    return RedirectToAction("CreateAffiliate");
-            //}
 
             // If the user has an affiliate, pass the affiliate to the view
             return View(affiliate);
@@ -63,16 +58,26 @@ namespace AffiliateWODTracker.Admin.Controllers
                 };
 
                 // Save the affiliate to the database using your repository
-                //await _affiliateRepository.AddAsync(affiliate);
+                await _affiliateManager.CreateAffiliate(affiliate);
 
                 // Redirect to the appropriate action/page after creation
-                return RedirectToAction("Index"); // or wherever you want to redirect
+                return RedirectToAction("MyAffiliate"); // or wherever you want to redirect
             }
 
             // If we got this far, something failed, redisplay form
             return View(model);
         }
 
+
+        [HttpPost]
+        [ValidateAntiForgeryToken]
+        public async Task<IActionResult> DeleteAffiliate([FromBody] DeleteAffiliateRequest affiliate)
+        {
+            await _affiliateManager.DeleteAffiliate(affiliate.AffiliateId);
+
+            return RedirectToAction("MyAffiliate");
+
+        }
 
     }
 }
