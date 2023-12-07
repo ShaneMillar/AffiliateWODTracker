@@ -1,4 +1,4 @@
-﻿using AffiliateWODTracker.Core.ViewModels;
+﻿using AffiliateWODTracker.Core.Common;
 using AffiliateWODTracker.Data.DataModels;
 using AffiliateWODTracker.Data.Interfaces;
 using Microsoft.EntityFrameworkCore;
@@ -17,13 +17,7 @@ namespace AffiliateWODTracker.Data.Repositories
         public async Task<IEnumerable<MemberEntity>> GetAllMembersAssociatedWithAffiliate(int affiliateId)
         {
             var members = await _context.Members
-               .Where(m => m.AffiliateId == affiliateId)
-               .Join(_context.Status,
-                     member => member.StatusId,
-                     status => status.StatusId,
-                     (member, status) => new { Member = member, Status = status })
-               .Where(ms => ms.Status.Name == "Accepted")
-               .Select(ms => ms.Member)
+               .Where(m => m.AffiliateId == affiliateId && m.Status.Name == LookUpNames.MemberStatus.Accepted)
                .ToListAsync();
 
             return members;
@@ -32,16 +26,24 @@ namespace AffiliateWODTracker.Data.Repositories
         public async Task<IEnumerable<MemberEntity>> GetRequestedMembersByAffiliateId(int affiliateId)
         {
             var members = await _context.Members
-               .Where(m => m.AffiliateId == affiliateId)
-               .Join(_context.Status,
-                     member => member.StatusId,
-                     status => status.StatusId,
-                     (member, status) => new { Member = member, Status = status })
-               .Where(ms => ms.Status.Name == "Pending")
-               .Select(ms => ms.Member)
+               .Where(m => m.AffiliateId == affiliateId && m.Status.Name == LookUpNames.MemberStatus.Pending)
                .ToListAsync();
 
             return members;
+        }
+
+        public async Task<int> GetActiveMembersCountByAffiliateId(int affiliateId)
+        {
+            return await _context.Members
+                                 .Where(m => m.AffiliateId == affiliateId && m.Status.Name == LookUpNames.MemberStatus.Accepted)
+                                 .CountAsync();
+        }
+
+        public async Task<int> GetPendingRequestsCountByAffiliateId(int affiliateId)
+        {
+            return await _context.Members
+                                 .Where(m => m.AffiliateId == affiliateId && m.Status.Name == LookUpNames.MemberStatus.Pending)
+                                 .CountAsync();
         }
 
         public async Task<MemberEntity> FindMemberById(int id)

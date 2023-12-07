@@ -22,11 +22,9 @@ namespace AffiliateWODTracker.Admin.Controllers
             var userId = User.FindFirstValue(ClaimTypes.NameIdentifier); // Get user ID from the logged-in user
 
             var affiliate = await _affiliateManager.GetAffiliateByUserId(userId);
-            var members = await _memberManager.GetMembersByAffiliateId(affiliate.AffiliateId);
-            var requests = await _memberManager.GetRequestedMembersByAffiliateId(affiliate.AffiliateId);
 
-            affiliate.ActiveMembersCount = members.Count();
-            affiliate.PendingRequestsCount = requests.Count();;
+            affiliate.ActiveMembersCount = await _memberManager.GetActiveMembersCountByAffiliateId(affiliate.AffiliateId);
+            affiliate.PendingRequestsCount = await _memberManager.GetPendingRequestsCountByAffiliateId(affiliate.AffiliateId);
 
 
             // If the user has an affiliate, pass the affiliate to the view

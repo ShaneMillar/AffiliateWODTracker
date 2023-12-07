@@ -1,4 +1,5 @@
-﻿using AffiliateWODTracker.Data.DataModels;
+﻿using AffiliateWODTracker.Core.Common;
+using AffiliateWODTracker.Data.DataModels;
 using Microsoft.AspNetCore.Identity.EntityFrameworkCore;
 using Microsoft.EntityFrameworkCore;
 
@@ -81,6 +82,13 @@ public class ApplicationDataContext : IdentityDbContext<OwnerEntity>
          .OnDelete(DeleteBehavior.Restrict);
 
         #endregion
+
+
+        //modelBuilder.Entity<StatusEntity>().HasData(
+        //new StatusEntity { StatusId = (int)MemberStatus.Accepted, Name = "Accepted" },
+        //new StatusEntity { StatusId = (int)MemberStatus.Rejected, Name = "Rejected" },
+        //new StatusEntity { StatusId = (int)MemberStatus.Pending, Name = "Pending" }
+        //);
     }
 
 }

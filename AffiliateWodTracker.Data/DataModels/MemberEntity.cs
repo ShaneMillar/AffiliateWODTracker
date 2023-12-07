@@ -16,6 +16,9 @@ namespace AffiliateWODTracker.Data.DataModels
 
         public DateTime DateOfBirth { get; set; }
 
+        public DateTime CreatedDate { get; set; }
+
+
         // Navigation properties
         public virtual AffiliateEntity Affiliate { get; set; } 
 

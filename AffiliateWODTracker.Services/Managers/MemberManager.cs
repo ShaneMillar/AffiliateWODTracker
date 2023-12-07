@@ -1,4 +1,4 @@
-﻿using AffiliateWODTracker.Core.Models;
+﻿using AffiliateWODTracker.Core.Common;
 using AffiliateWODTracker.Core.ViewModels;
 using AffiliateWODTracker.Data.Interfaces;
 using AffiliateWODTracker.Services.Interfaces;
@@ -38,15 +38,42 @@ namespace AffiliateWODTracker.Services.Managers
             return null;
         }
 
+        public async Task<int> GetActiveMembersCountByAffiliateId(int affiliateId)
+        {
+             return await _memberRepository.GetActiveMembersCountByAffiliateId(affiliateId);
+        }
+
+        public async Task<int> GetPendingRequestsCountByAffiliateId(int affiliateId)
+        {
+            return await _memberRepository.GetPendingRequestsCountByAffiliateId(affiliateId);
+        }
+
+
         public async Task UpdateMemberToAccepted(int memberId)
         {
             var memberEntity = await _memberRepository.FindMemberById(memberId);
 
-            memberEntity.StatusId = 1;
+            memberEntity.StatusId = (int)MemberStatus.Accepted;
 
             await _memberRepository.UpdateAsync(memberEntity);
+        }
 
+        public async Task UpdateMemberToRejected(int memberId)
+        {
+            var memberEntity = await _memberRepository.FindMemberById(memberId);
 
+            memberEntity.StatusId = (int)MemberStatus.Rejected;
+
+            await _memberRepository.UpdateAsync(memberEntity);
+        }
+
+        public async Task UpdateMemberToPending(int memberId)
+        {
+            var memberEntity = await _memberRepository.FindMemberById(memberId);
+
+            memberEntity.StatusId = (int)MemberStatus.Pending;
+
+            await _memberRepository.UpdateAsync(memberEntity);
         }
 
         public async Task DeleteMember(int memberId)

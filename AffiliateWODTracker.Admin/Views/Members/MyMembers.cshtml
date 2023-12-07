@@ -34,9 +34,10 @@
                     <td>@member.Address</td>
                     <td>@CalculateAge(member.DateOfBirth)</td>
                     <td>
-                        <button type="button" class="btn btn-danger" data-toggle="modal" data-target="#removeConfirmationModal" id="removeButton" data-memberid="@member.MemberId">
+                        <button type="button" class="btn btn-danger" data-toggle="modal" data-target="#removeConfirmationModal" data-memberid="@member.MemberId">
                             Remove
                         </button>
+
                     </td>
                 </tr>
             }
@@ -61,12 +62,12 @@ else
                 </button>
             </div>
             <div class="modal-body">
-                Are you sure you wish to Remove this member from your Affiliate?
+                Are you sure you wish to Remove this member from your Affiliate (You can accept them again in Pending Requests)?
             </div>
             <div class="modal-footer">
                 <button type="button" class="btn btn-secondary" data-dismiss="modal">No</button>
                 <!-- The confirm button now calls handleMemberRemoval without an ID -->
-                <button type="button" class="btn btn-danger" onclick="handleMemberRemoval()" id="confirmRemoveButton">Yes</button>
+                <button type="button" class="btn btn-danger" id="confirmRemoveButton">Yes</button>
             </div>
         </div>
     </div>
@@ -74,15 +75,11 @@ else
 
 @section Scripts {
     <script>
-        function handleMemberRemoval() {
-            var memberId = $('#removeButton').data('memberid'); // Retrieve the member ID from the button
-            // Proceed with removal logic
-            // Make sure to replace 'YourRemoveMemberEndpoint' with the actual endpoint
-            console.log(memberId);
+        // This function will be called with the correct memberId when the remove button is clicked
+        function handleMemberRemoval(memberId) {
             var removeUrl = '/Members/RemoveMember';
-
             fetch(removeUrl, {
-                method: 'POST',
+                method: 'PUT', // Make sure your endpoint accepts PUT requests
                 headers: {
                     'Content-Type': 'application/json',
                     'RequestVerificationToken': document.querySelector('input[name="__RequestVerificationToken"]').value
@@ -91,23 +88,27 @@ else
             })
                 .then(response => {
                     if (response.ok) {
-                        // If removal was successful, remove the row from the table or refresh the page
                         location.reload(); // Or use JavaScript to remove the row from the DOM
                     } else {
-                        // Handle error here
                         console.error('Removal failed.');
                     }
                 })
                 .catch(error => {
                     console.error('Error:', error);
                 });
+        }
 
+        $(document).ready(function () {
+            // Bind to the show event of the modal
             $('#removeConfirmationModal').on('show.bs.modal', function (event) {
                 var button = $(event.relatedTarget); // Button that triggered the modal
                 var memberId = button.data('memberid'); // Extract info from data-* attributes
-                var modal = $(this);
-                modal.find('#removeButton').data('memberid', memberId); // Set the data-memberid attribute on the confirm button
+
+                // When the confirm button is clicked, call handleMemberRemoval with the memberId
+                $(this).find('.btn-danger').off('click').on('click', function () {
+                    handleMemberRemoval(memberId);
+                });
             });
-        }
+        });
     </script>
 }

@@ -25,10 +25,10 @@
                             <p class="card-text">Age: @CalculateAge(member.DateOfBirth)</p>
                         </div>
                         <div class="card-footer">
-                            <button type="button" class="btn btn-custom" data-toggle="modal" data-target="#rejectConfirmationModal" id="rejectButton" data-memberid="@member.MemberId">
+                            <button type="button" class="btn btn-custom" data-toggle="modal" data-target="#rejectConfirmationModal" data-memberid="@member.MemberId">
                                 Reject
                             </button>
-                            <button type="button" class="btn btn-custom" data-toggle="modal" data-target="#acceptConfirmationModal" id="acceptButton" data-memberid="@member.MemberId">
+                            <button type="button" class="btn btn-custom" data-toggle="modal" data-target="#acceptConfirmationModal" data-memberid="@member.MemberId">
                                 Accept
                             </button>
                         </div>
@@ -61,7 +61,7 @@ else
             </div>
             <div class="modal-footer">
                 <button type="button" class="btn btn-secondary" data-dismiss="modal">No</button>
-                <button type="button" class="btn btn-success" onclick="handleMemberAccept()" id="confirmAcceptButton">Yes</button>
+                <button type="button" class="btn btn-success"  id="confirmAcceptButton">Yes</button>
             </div>
         </div>
     </div>
@@ -83,7 +83,7 @@ else
             </div>
             <div class="modal-footer">
                 <button type="button" class="btn btn-secondary" data-dismiss="modal">No</button>
-                <button type="button" class="btn btn-danger" onclick="handleMemberReject()" id="confirmRejectButton">Yes</button>
+                <button type="button" class="btn btn-danger" id="confirmRejectButton">Yes</button>
             </div>
         </div>
     </div>
@@ -97,8 +97,29 @@ else
 
 @section Scripts {
     <script>
-        function handleMemberAccept() {
-            var memberId = $('#acceptButton').data('memberid'); // Retrieve the member ID from the button
+
+        $(document).ready(function () {
+            // Accept modal show event binding
+            $('#acceptConfirmationModal').on('show.bs.modal', function (event) {
+                var button = $(event.relatedTarget);
+                var memberId = button.data('memberid');
+                $(this).find('#confirmAcceptButton').off('click').on('click', function () {
+                    handleMemberAccept(memberId);
+                });
+            });
+
+            // Reject modal show event binding
+            $('#rejectConfirmationModal').on('show.bs.modal', function (event) {
+                var button = $(event.relatedTarget);
+                var memberId = button.data('memberid');
+                $(this).find('#confirmRejectButton').off('click').on('click', function () {
+                    handleMemberReject(memberId);
+                });
+            });
+        });
+
+
+        function handleMemberAccept(memberId) {
             var removeUrl = '/Members/AcceptMember';
 
             fetch(removeUrl, {
@@ -120,18 +141,9 @@ else
                 .catch(error => {
                     console.error('Error:', error);
                 });
-
-            $('#acceptConfirmationModal').on('show.bs.modal', function (event) {
-                var button = $(event.relatedTarget); // Button that triggered the modal
-                var memberId = button.data('memberid'); // Extract info from data-* attributes
-                var modal = $(this);
-                modal.find('#acceptButton').data('memberid', memberId); // Set the data-memberid attribute on the confirm button
-            });
         }
 
-
-        function handleMemberReject() {
-            var memberId = $('#rejectButton').data('memberid'); // Retrieve the member ID from the button
+        function handleMemberReject(memberId) {
             var removeUrl = '/Members/RejectMember';
 
             fetch(removeUrl, {
@@ -153,13 +165,6 @@ else
                 .catch(error => {
                     console.error('Error:', error);
                 });
-
-            $('#rejectConfirmationModal').on('show.bs.modal', function (event) {
-                var button = $(event.relatedTarget); // Button that triggered the modal
-                var memberId = button.data('memberid'); // Extract info from data-* attributes
-                var modal = $(this);
-                modal.find('#rejectButton').data('memberid', memberId); // Set the data-memberid attribute on the confirm button
-            });
         }
     </script>
 }

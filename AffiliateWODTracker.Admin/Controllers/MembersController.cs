@@ -1,7 +1,6 @@
 ﻿using AffiliateWODTracker.Core.RequestModels;
 using AffiliateWODTracker.Services.Interfaces;
 using Microsoft.AspNetCore.Mvc;
-using System.Diagnostics.CodeAnalysis;
 using System.Security.Claims;
 
 namespace AffiliateWODTracker.Admin.Controllers
@@ -31,13 +30,13 @@ namespace AffiliateWODTracker.Admin.Controllers
             return View();
         }
 
-        [HttpPost]
+        [HttpPut]
         [ValidateAntiForgeryToken]
         public async Task<IActionResult> RemoveMember([FromBody] MemberActionRequest member)
         {
-            await _memberManager.DeleteMember(member.MemberId);
+            await _memberManager.UpdateMemberToPending(member.MemberId);
 
-            return RedirectToAction("MyAffiliate");
+            return RedirectToAction("MyMembers");
 
         }
 
@@ -61,6 +60,16 @@ namespace AffiliateWODTracker.Admin.Controllers
         public async Task<IActionResult> AcceptMember([FromBody] MemberActionRequest memberRequest)
         {
             await _memberManager.UpdateMemberToAccepted(memberRequest.MemberId);
+
+            return RedirectToAction("MyRequests");
+
+        }
+
+        [HttpPut]
+        [ValidateAntiForgeryToken]
+        public async Task<IActionResult> RejectMember([FromBody] MemberActionRequest memberRequest)
+        {
+            await _memberManager.UpdateMemberToRejected(memberRequest.MemberId);
 
             return RedirectToAction("MyRequests");
 

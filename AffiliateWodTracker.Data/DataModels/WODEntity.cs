@@ -10,8 +10,12 @@ namespace AffiliateWODTracker.Data.DataModels
         public string Description { get; set; }
         public int AffiliateId { get; set; }
         public DateTime TimeCap { get; set; }
+        public DateTime CreatedDate { get; set; }
+
+
+        //Navigation Properties
         public virtual AffiliateEntity Affiliate { get; set; }
-        public DateTime Date { get; set; }
+
         public virtual ICollection<ScoreEntity> Scores { get; set; }
         public virtual ICollection<CommentEntity> Comments { get; set; }
     }
