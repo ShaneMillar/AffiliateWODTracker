@@ -1,25 +1,30 @@
-﻿namespace AffiliateWODTracker.Mobile
+﻿using System.Windows.Input;
+
+namespace AffiliateWODTracker.Mobile
 {
     public partial class MainPage : ContentPage
     {
-        int count = 0;
+        public ICommand LoginCommand { get; }
+        public ICommand RegisterCommand { get; }
 
         public MainPage()
         {
             InitializeComponent();
+            LoginCommand = new Command(OnLoginClicked);
+            RegisterCommand = new Command(OnRegisterClicked);
+            BindingContext = this;
         }
 
-        private void OnCounterClicked(object sender, EventArgs e)
+        private async void OnLoginClicked()
         {
-            count++;
+            // Navigate to the Login Page
+            await Shell.Current.GoToAsync("LoginPage");
+        }
 
-            if (count == 1)
-                CounterBtn.Text = $"Clicked {count} time";
-            else
-                CounterBtn.Text = $"Clicked {count} times";
-
-            SemanticScreenReader.Announce(CounterBtn.Text);
+        private async void OnRegisterClicked()
+        {
+            // Navigate to the Register Page
+            await Shell.Current.GoToAsync("RegisterPage");
         }
     }
-
 }

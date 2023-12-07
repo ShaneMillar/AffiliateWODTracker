@@ -57,9 +57,55 @@
 	</ItemGroup>
 
 	<ItemGroup>
+	  <None Remove="Resources\mipmap\mipmap-hdpi\appicon.png" />
+	  <None Remove="Resources\mipmap\mipmap-hdpi\appicon_round.png" />
+	  <None Remove="Resources\mipmap\mipmap-ldpi\appicon.png" />
+	  <None Remove="Resources\mipmap\mipmap-mdpi\appicon.png" />
+	  <None Remove="Resources\mipmap\mipmap-mdpi\appicon_round.png" />
+	  <None Remove="Resources\mipmap\mipmap-xhdpi\appicon.png" />
+	  <None Remove="Resources\mipmap\mipmap-xhdpi\appicon_round.png" />
+	  <None Remove="Resources\mipmap\mipmap-xxhdpi\appicon.png" />
+	  <None Remove="Resources\mipmap\mipmap-xxhdpi\appicon_round.png" />
+	  <None Remove="Resources\mipmap\mipmap-xxxhdpi\appicon.png" />
+	  <None Remove="Resources\mipmap\mipmap-xxxhdpi\appicon_round.png" />
+	  <None Remove="Resources\mipmap\values\appicon_background.xml" />
+	</ItemGroup>
+
+	<ItemGroup>
+	  <AndroidResource Include="Resources\mipmap\mipmap-hdpi\appicon.png" />
+	  <AndroidResource Include="Resources\mipmap\mipmap-hdpi\appicon_round.png" />
+	  <AndroidResource Include="Resources\mipmap\mipmap-ldpi\appicon.png" />
+	  <AndroidResource Include="Resources\mipmap\mipmap-mdpi\appicon.png" />
+	  <AndroidResource Include="Resources\mipmap\mipmap-mdpi\appicon_round.png" />
+	  <AndroidResource Include="Resources\mipmap\mipmap-xhdpi\appicon.png" />
+	  <AndroidResource Include="Resources\mipmap\mipmap-xhdpi\appicon_round.png" />
+	  <AndroidResource Include="Resources\mipmap\mipmap-xxhdpi\appicon.png" />
+	  <AndroidResource Include="Resources\mipmap\mipmap-xxhdpi\appicon_round.png" />
+	  <AndroidResource Include="Resources\mipmap\mipmap-xxxhdpi\appicon.png" />
+	  <AndroidResource Include="Resources\mipmap\mipmap-xxxhdpi\appicon_round.png" />
+	  <AndroidResource Include="Resources\mipmap\values\appicon_background.xml" />
+	</ItemGroup>
+
+	<ItemGroup>
 		<PackageReference Include="Microsoft.Maui.Controls" Version="$(MauiVersion)" />
 		<PackageReference Include="Microsoft.Maui.Controls.Compatibility" Version="$(MauiVersion)" />
 		<PackageReference Include="Microsoft.Extensions.Logging.Debug" Version="8.0.0" />
+	</ItemGroup>
+
+	<ItemGroup>
+	  <ProjectReference Include="..\AffiliateWODTracker.Core\AffiliateWODTracker.Core.csproj" />
+	</ItemGroup>
+
+	<ItemGroup>
+	  <Compile Update="Views\Account\RegisterPage.xaml.cs">
+	    <DependentUpon>RegisterPage.xaml</DependentUpon>
+	  </Compile>
+	</ItemGroup>
+
+	<ItemGroup>
+	  <MauiXaml Update="Views\Account\RegisterPage.xaml">
+	    <Generator>MSBuild:Compile</Generator>
+	  </MauiXaml>
 	</ItemGroup>
 
 </Project>
