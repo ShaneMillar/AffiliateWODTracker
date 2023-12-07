@@ -23,8 +23,11 @@ namespace AffiliateWODTracker.Admin.Controllers
 
             var affiliate = await _affiliateManager.GetAffiliateByUserId(userId);
 
-            affiliate.ActiveMembersCount = await _memberManager.GetActiveMembersCountByAffiliateId(affiliate.AffiliateId);
-            affiliate.PendingRequestsCount = await _memberManager.GetPendingRequestsCountByAffiliateId(affiliate.AffiliateId);
+            if (affiliate != null)
+            {
+                affiliate.ActiveMembersCount = await _memberManager.GetActiveMembersCountByAffiliateId(affiliate.AffiliateId);
+                affiliate.PendingRequestsCount = await _memberManager.GetPendingRequestsCountByAffiliateId(affiliate.AffiliateId);
+            }
 
 
             // If the user has an affiliate, pass the affiliate to the view
@@ -55,7 +58,8 @@ namespace AffiliateWODTracker.Admin.Controllers
                 {
                     Name = model.Name,
                     Address = model.Address,
-                    OwnerId = userId
+                    OwnerId = userId,
+                    CreatedDate = DateTime.Now,
                 };
 
                 // Save the affiliate to the database using your repository
