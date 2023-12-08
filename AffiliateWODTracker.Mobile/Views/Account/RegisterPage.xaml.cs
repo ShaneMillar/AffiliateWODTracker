@@ -43,6 +43,14 @@ public partial class RegisterPage : ContentPage
 
     private async void OnRegisterClicked(object sender, EventArgs e)
     {
+        if (passwordEntry.Text != confirmPasswordEntry.Text)
+        {
+            // Passwords do not match
+            await DisplayAlert("Error", "Passwords do not match", "OK");
+            return;
+        }
+
+       
         // Collect user input
         var firstName = firstNameEntry.Text;
         var lastName = lastNameEntry.Text;

@@ -1,0 +1,63 @@
+<?xml version="1.0" encoding="utf-8" ?>
+<ContentPage xmlns="http://schemas.microsoft.com/dotnet/2021/maui"
+             xmlns:x="http://schemas.microsoft.com/winfx/2009/xaml"
+             x:Class="AffiliateWODTracker.Mobile.Views.Account.LoginPage"
+             BackgroundColor="White">
+    <VerticalStackLayout
+         Spacing="25"
+         Padding="30"
+         VerticalOptions="Center"
+         HorizontalOptions="FillAndExpand">
+
+        <Image
+            Source="MFIT_Logo.png"
+            HorizontalOptions="Center"
+            WidthRequest="200"  
+            HeightRequest="200"
+            Aspect="AspectFit" />
+
+        <Frame BorderColor="Gray" CornerRadius="5" Padding="5">
+            <Entry x:Name="emailEntry" Placeholder="Email Address" TextColor="Black" PlaceholderColor="Gray" BackgroundColor="White" >
+                <VisualStateManager.VisualStateGroups>
+                    <VisualStateGroupList>
+                        <VisualStateGroup>
+                            <VisualState Name="Normal">
+                                <VisualState.Setters>
+                                    <Setter Property="BackgroundColor" Value="White" />
+                                </VisualState.Setters>
+                            </VisualState>
+                            <VisualState Name="Focused">
+                                <VisualState.Setters>
+                                    <Setter Property="BackgroundColor" Value="LightGray" />
+                                </VisualState.Setters>
+                            </VisualState>
+                        </VisualStateGroup>
+                    </VisualStateGroupList>
+                </VisualStateManager.VisualStateGroups>
+            </Entry>
+        </Frame>
+
+        <Frame BorderColor="Gray" CornerRadius="5" Padding="5">
+            <Entry x:Name="passwordEntry" Placeholder="Password" TextColor="Black" PlaceholderColor="Gray" BackgroundColor="White" >
+                <VisualStateManager.VisualStateGroups>
+                    <VisualStateGroupList>
+                        <VisualStateGroup>
+                            <VisualState Name="Normal">
+                                <VisualState.Setters>
+                                    <Setter Property="BackgroundColor" Value="White" />
+                                </VisualState.Setters>
+                            </VisualState>
+                            <VisualState Name="Focused">
+                                <VisualState.Setters>
+                                    <Setter Property="BackgroundColor" Value="LightGray" />
+                                </VisualState.Setters>
+                            </VisualState>
+                        </VisualStateGroup>
+                    </VisualStateGroupList>
+                </VisualStateManager.VisualStateGroups>
+            </Entry>
+        </Frame>
+
+        <Button Text="Login" Clicked="OnLoginClicked" BackgroundColor="Black" TextColor="White" />
+    </VerticalStackLayout>
+</ContentPage>

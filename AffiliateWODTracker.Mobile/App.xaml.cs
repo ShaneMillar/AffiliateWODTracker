@@ -10,6 +10,7 @@ namespace AffiliateWODTracker.Mobile
 
             MainPage = new AppShell();
             Routing.RegisterRoute(nameof(RegisterPage), typeof(RegisterPage));
+            Routing.RegisterRoute(nameof(LoginPage), typeof(LoginPage));
 
         }
     }

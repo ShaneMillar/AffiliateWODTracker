@@ -10,11 +10,12 @@
         VerticalOptions="Center"
         HorizontalOptions="FillAndExpand">
 
-        <Label 
-            Text="Welcome to MFIT"
-            FontSize="Medium"
+        <Image
+            Source="MFIT_Logo.png"
             HorizontalOptions="Center"
-            TextColor="Black"/>
+            WidthRequest="200"  
+            HeightRequest="200"
+            Aspect="AspectFit" />
 
         <Button 
             Text="Login"

@@ -14,6 +14,6 @@
     </ShellItem>-->
 
     <ShellContent Route="Register" ContentTemplate="{DataTemplate account:RegisterPage}" />
-
+    <ShellContent Route="Login" ContentTemplate="{DataTemplate account:LoginPage}" />
 
 </Shell>
