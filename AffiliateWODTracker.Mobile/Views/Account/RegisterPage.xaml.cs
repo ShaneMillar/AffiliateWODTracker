@@ -1,11 +1,14 @@
 using AffiliateWODTracker.Core.Common;
 using AffiliateWODTracker.Core.Models;
 using Newtonsoft.Json;
+using System.Text;
 
 namespace AffiliateWODTracker.Mobile.Views.Account;
 
 public partial class RegisterPage : ContentPage
 {
+    private readonly HttpClient _httpClient = new HttpClient();
+
     public RegisterPage()
     {
         InitializeComponent();
@@ -14,58 +17,81 @@ public partial class RegisterPage : ContentPage
 
     private async Task LoadAffiliatesAsync()
     {
-        try
+        var response = await _httpClient.GetAsync($"{MobileConfig.HttpConfig.API}/Affiliate/GetAffiliates");
+        if (!response.IsSuccessStatusCode)
         {
-            var httpClient = new HttpClient();
-            var response = await httpClient.GetAsync(MobileConfig.HttpConfig.API + "/Affiliate/GetAffiliates");
-            
-            if (response.IsSuccessStatusCode)
-            {
-                var content = await response.Content.ReadAsStringAsync();
-                var affiliates = JsonConvert.DeserializeObject<List<Affiliate>>(content);
-                // Update UI accordingly, for example:
-                if (affiliates != null && affiliates.Any())
-                {
-                    affiliatePicker.ItemsSource = affiliates.Select(a => a.Name).ToList();
-                }
-            }
-            else
-            {
-                // Handle error
-            }
-        }
-        catch (Exception ex)
-        {
-            var message = ex.Message;
-        }
-    }
-
-
-    private async void OnRegisterClicked(object sender, EventArgs e)
-    {
-        if (passwordEntry.Text != confirmPasswordEntry.Text)
-        {
-            // Passwords do not match
-            await DisplayAlert("Error", "Passwords do not match", "OK");
+            await DisplayAlert("Error", "Unable to load affiliates. Please try again later.", "OK");
             return;
         }
 
-       
-        // Collect user input
-        var firstName = firstNameEntry.Text;
-        var lastName = lastNameEntry.Text;
-        var email = emailEntry.Text;
-        var phoneNumber = phoneEntry.Text;
-        var address = addressEntry.Text;
-        var dateOfBirth = dobPicker.Date;
-        var affiliate = affiliatePicker.SelectedItem as Affiliate; // Assuming you have an Affiliate class
-        var password = passwordEntry.Text;
+        var content = await response.Content.ReadAsStringAsync();
+        var affiliates = JsonConvert.DeserializeObject<List<Affiliate>>(content);
+        affiliatePicker.ItemsSource = affiliates ?? new List<Affiliate>();
+        affiliatePicker.ItemDisplayBinding = new Binding("Name");
+    }
 
-        // Perform input validation
+    private async void OnRegisterClicked(object sender, EventArgs e)
+    {
+        if (!ValidateInputs())
+        {
+            await DisplayAlert("Error", "Please fill in all fields.", "OK");
+            return;
+        }
 
-        // Send data to your backend for registration
-        // This will involve calling an API endpoint and handling the response
-        // You would typically use HttpClient to perform the API call
-        // On successful registration, navigate to the login page or main app page
+        if (passwordEntry.Text != confirmPasswordEntry.Text)
+        {
+            await DisplayAlert("Error", "Passwords do not match.", "OK");
+            return;
+        }
+
+        var userRegistration = CreateUserRegistration();
+        var response = await RegisterUserAsync(userRegistration);
+
+        if (response.IsSuccessStatusCode)
+        {
+            await DisplayAlert("Success", "Account created successfully.", "OK");
+            await Shell.Current.GoToAsync("//LoginPage");
+        }
+        else
+        {
+            var errorResponse = await response.Content.ReadAsStringAsync();
+            await DisplayAlert("Registration Failed", errorResponse, "OK");
+        }
+    }
+
+    private bool ValidateInputs()
+    {
+        return !string.IsNullOrWhiteSpace(firstNameEntry.Text) &&
+               !string.IsNullOrWhiteSpace(lastNameEntry.Text) &&
+               !string.IsNullOrWhiteSpace(emailEntry.Text) &&
+               !string.IsNullOrWhiteSpace(phoneEntry.Text) &&
+               !string.IsNullOrWhiteSpace(addressEntry.Text) &&
+               affiliatePicker.SelectedItem != null &&
+               !string.IsNullOrWhiteSpace(passwordEntry.Text) &&
+               !string.IsNullOrWhiteSpace(confirmPasswordEntry.Text);
+    }
+
+    private RegisterModel CreateUserRegistration()
+    {
+        var selectedAffiliate = (Affiliate)affiliatePicker.SelectedItem;
+        return new RegisterModel
+        {
+            FirstName = firstNameEntry.Text,
+            LastName = lastNameEntry.Text,
+            Email = emailEntry.Text,
+            PhoneNumber = phoneEntry.Text,
+            Address = addressEntry.Text,
+            DateOfBirth = dobPicker.Date,
+            AffiliateId = selectedAffiliate.AffiliateId,
+            Password = passwordEntry.Text
+        };
+    }
+
+    private async Task<HttpResponseMessage> RegisterUserAsync(RegisterModel userRegistration)
+    {
+        var json = JsonConvert.SerializeObject(userRegistration);
+        var content = new StringContent(json, Encoding.UTF8, "application/json");
+        var apiUrl = $"{MobileConfig.HttpConfig.API}/Account/Register";
+        return await _httpClient.PostAsync(apiUrl, content);
     }
 }
