@@ -5,6 +5,7 @@ namespace AffiliateWODTracker.Services.Interfaces
 {
     public interface IAffiliateManager
     {
+        Task<List<AffiliateViewModel>> GetAllAffiliates();
         Task<AffiliateViewModel> GetAffiliateByUserId(string userId);
 
         Task CreateAffiliate(AffiliateEntity affiliate);

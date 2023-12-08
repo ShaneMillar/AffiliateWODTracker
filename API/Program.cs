@@ -1,3 +1,4 @@
+using AffiliateWODTracker.Core.Common;
 using AffiliateWODTracker.Data.DataModels;
 using AffiliateWODTracker.Data.Interfaces;
 using AffiliateWODTracker.Data.Repositories;
@@ -42,6 +43,16 @@ builder.Services.AddScoped<IMemberManager, MemberManager>();
 //Services
 builder.Services.AddAutoMapper(typeof(MappingService));
 
+builder.Services.AddCors(options =>
+{
+    options.AddPolicy("MyCorsPolicy", policy =>
+    {
+        policy.WithOrigins(MobileConfig.HttpConfig.API) // Replace with your client's IP
+              .AllowAnyHeader()
+              .AllowAnyMethod();
+    });
+});
+
 
 var app = builder.Build();
 
@@ -53,6 +64,7 @@ if (app.Environment.IsDevelopment())
     app.UseSwaggerUI();
 }
 
+app.UseCors("MyCorsPolicy");
 
 app.UseHttpsRedirection();
 

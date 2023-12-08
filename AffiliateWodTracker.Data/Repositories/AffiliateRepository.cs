@@ -1,5 +1,4 @@
 ﻿using AffiliateWODTracker.Core.Models;
-using AffiliateWODTracker.Core.ViewModels;
 using AffiliateWODTracker.Data.DataModels;
 using AffiliateWODTracker.Data.Interfaces;
 using Microsoft.EntityFrameworkCore;
@@ -15,16 +14,9 @@ namespace AffiliateWODTracker.Data.Repositories
             _context = context;
         }
 
-        public async Task<IEnumerable<Affiliate>> GetAllAsync()
+        public async Task<IEnumerable<AffiliateEntity>> GetAllAsync()
         {
-            var affiliates = await _context.Affiliates.ToListAsync();
-
-            return affiliates.Select(a => new Affiliate
-            {
-                AffiliateId = a.AffiliateId,
-                Name = a.Name,
-                // Map other properties as needed
-            }).ToList();
+            return await _context.Affiliates.ToListAsync();
 
         }
 

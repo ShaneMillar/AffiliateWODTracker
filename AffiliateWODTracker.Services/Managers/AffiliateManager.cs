@@ -19,6 +19,18 @@ namespace AffiliateWODTracker.Services.Managers
 
         }
 
+        public async Task<List<AffiliateViewModel>> GetAllAffiliates()
+        {
+            var affiliates = await _affiliateRepository.GetAllAsync();
+
+            if (affiliates.Any())
+            {
+                return _mapper.Map<List<AffiliateViewModel>>(affiliates.ToList());
+            }
+
+            return null;
+        }
+
         public async Task<AffiliateViewModel> GetAffiliateByUserId(string userId)
         {
             var affiliate = await _affiliateRepository.GetAffiliateByUserIdAsync(userId);

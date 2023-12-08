@@ -1,4 +1,6 @@
+using AffiliateWODTracker.Core.Common;
 using AffiliateWODTracker.Core.Models;
+using Newtonsoft.Json;
 
 namespace AffiliateWODTracker.Mobile.Views.Account;
 
@@ -7,8 +9,37 @@ public partial class RegisterPage : ContentPage
     public RegisterPage()
     {
         InitializeComponent();
-        // Initialize affiliatePicker with available affiliates
+        LoadAffiliatesAsync();
     }
+
+    private async Task LoadAffiliatesAsync()
+    {
+        try
+        {
+            var httpClient = new HttpClient();
+            var response = await httpClient.GetAsync(MobileConfig.HttpConfig.API + "/Affiliate/GetAffiliates");
+            
+            if (response.IsSuccessStatusCode)
+            {
+                var content = await response.Content.ReadAsStringAsync();
+                var affiliates = JsonConvert.DeserializeObject<List<Affiliate>>(content);
+                // Update UI accordingly, for example:
+                if (affiliates != null && affiliates.Any())
+                {
+                    affiliatePicker.ItemsSource = affiliates.Select(a => a.Name).ToList();
+                }
+            }
+            else
+            {
+                // Handle error
+            }
+        }
+        catch (Exception ex)
+        {
+            var message = ex.Message;
+        }
+    }
+
 
     private async void OnRegisterClicked(object sender, EventArgs e)
     {

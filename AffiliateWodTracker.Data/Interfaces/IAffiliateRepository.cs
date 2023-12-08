@@ -1,13 +1,12 @@
 ﻿
 using AffiliateWODTracker.Core.Models;
-using AffiliateWODTracker.Core.ViewModels;
 using AffiliateWODTracker.Data.DataModels;
 
 namespace AffiliateWODTracker.Data.Interfaces
 {
     public interface IAffiliateRepository
     {
-        Task<IEnumerable<Affiliate>> GetAllAsync();
+        Task<IEnumerable<AffiliateEntity>> GetAllAsync();
         Task<Affiliate> GetByIdAsync(int id);
         Task<AffiliateEntity> GetAffiliateByUserIdAsync(string userId);
         Task InsertAsync(AffiliateEntity affiliate);

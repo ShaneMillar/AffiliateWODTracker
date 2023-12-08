@@ -1,26 +1,25 @@
-﻿using AffiliateWODTracker.Core.Models;
-using AffiliateWODTracker.Data.Interfaces;
+﻿using AffiliateWODTracker.Services.Interfaces;
 using Microsoft.AspNetCore.Mvc;
 
 [ApiController]
 [Route("[controller]")]
 public class AffiliateController : ControllerBase
 {
-    private readonly IAffiliateRepository _affiliateRepository;
+    private readonly IAffiliateManager _affiliateManager;
 
-    public AffiliateController(IAffiliateRepository affiliateRepository)
+    public AffiliateController(IAffiliateManager affiliateManager)
     {
-        _affiliateRepository = affiliateRepository;
+        _affiliateManager = affiliateManager;
     }
 
-    [HttpGet("{id}")]
-    public async Task<ActionResult<Affiliate>> GetById(int id)
+    [HttpGet(nameof(GetAffiliates), Name = nameof(GetAffiliates))]
+    public async Task<IActionResult> GetAffiliates()
     {
-        var affiliate = await _affiliateRepository.GetByIdAsync(id);
-        if (affiliate == null)
-            return NotFound();
-        return Ok(affiliate);
+        var affiliates = await _affiliateManager.GetAllAffiliates();
+        return Ok(affiliates);
     }
+
+
 
     // Other actions...
 }
