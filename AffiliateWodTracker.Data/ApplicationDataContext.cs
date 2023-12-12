@@ -1,10 +1,8 @@
-﻿using AffiliateWODTracker.Core.Common;
-using AffiliateWODTracker.Data.DataModels;
-using Microsoft.AspNetCore.Identity;
+﻿using AffiliateWODTracker.Data.DataModels;
 using Microsoft.AspNetCore.Identity.EntityFrameworkCore;
 using Microsoft.EntityFrameworkCore;
 
-public class ApplicationDataContext : IdentityDbContext<OwnerEntity>
+public class ApplicationDataContext : IdentityDbContext
 {
     public ApplicationDataContext(DbContextOptions<ApplicationDataContext> options)
         : base(options)
@@ -31,14 +29,6 @@ public class ApplicationDataContext : IdentityDbContext<OwnerEntity>
         base.OnModelCreating(modelBuilder);
 
         #region Admin
-
-        //Configure Owner - Affiliate Relationship
-        modelBuilder.Entity<OwnerEntity>()
-           .HasOne(a => a.Affiliate)
-           .WithMany()
-           .HasForeignKey(u => u.AffiliateId)
-           .IsRequired(false); // Mark it as optional
-
 
         // Configure Members - Affiliate relationship
         modelBuilder.Entity<MemberEntity>()

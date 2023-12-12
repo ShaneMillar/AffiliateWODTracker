@@ -12,5 +12,7 @@
 
         public int StatusId { get; set; }
         public DateTime DateOfBirth { get; set; }
+
+        public DateTime CreatedDate { get; set; }
     }
 }

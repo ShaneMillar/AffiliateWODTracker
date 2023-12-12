@@ -8,10 +8,10 @@ using Microsoft.AspNetCore.Mvc;
 [AllowAnonymous]
 public class AccountController : Controller
 {
-    private readonly UserManager<OwnerEntity> _userManager;
-    private readonly SignInManager<OwnerEntity> _signInManager;
+    private readonly UserManager<IdentityUser> _userManager;
+    private readonly SignInManager<IdentityUser> _signInManager;
 
-    public AccountController(UserManager<OwnerEntity> userManager, SignInManager<OwnerEntity> signInManager)
+    public AccountController(UserManager<IdentityUser> userManager, SignInManager<IdentityUser> signInManager)
     {
         _userManager = userManager;
         _signInManager = signInManager;
@@ -30,7 +30,7 @@ public class AccountController : Controller
     {
         if (ModelState.IsValid)
         {
-            var user = new OwnerEntity { UserName = model.Email, Email = model.Email, IsAdmin = true };
+            var user = new IdentityUser { UserName = model.Email, Email = model.Email };
             var result = await _userManager.CreateAsync(user, model.Password);
             if (result.Succeeded)
             {

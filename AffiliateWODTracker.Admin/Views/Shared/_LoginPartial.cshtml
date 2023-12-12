@@ -1,7 +1,7 @@
 ﻿@using AffiliateWODTracker.Data.DataModels
 @using Microsoft.AspNetCore.Identity
-@inject SignInManager<OwnerEntity> SignInManager
-@inject UserManager<OwnerEntity> UserManager
+@inject SignInManager<IdentityUser> SignInManager
+@inject UserManager<IdentityUser> UserManager
 
 <ul class="navbar-nav">
 @if (SignInManager.IsSignedIn(User))

@@ -48,7 +48,8 @@ namespace AffiliateWODTracker.API.Controllers
                     AffiliateId = model.AffiliateId.Value,
                     DateOfBirth = model.DateOfBirth,
                     PhoneNumber = model.PhoneNumber,
-                    StatusId = (int)MemberStatus.Pending
+                    StatusId = (int)MemberStatus.Pending,
+                    CreatedDate = DateTime.Now
                 };
 
                 var result = await _userManager.CreateAsync(user, model.Password);

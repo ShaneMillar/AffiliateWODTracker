@@ -9,11 +9,12 @@
         <ShellContent ContentTemplate="{DataTemplate pages:MainPage}" />
     </ShellItem>
 
-    <!--<ShellItem Route="LoginPage" FlyoutItemIsVisible="False">
-        <ShellContent ContentTemplate="{DataTemplate pages:LoginPage}" />
-    </ShellItem>-->
+    <ShellItem Route="RegisterPage" FlyoutItemIsVisible="False">
+        <ShellContent ContentTemplate="{DataTemplate account:RegisterPage}" />
+    </ShellItem>
 
-    <ShellContent Route="Register" ContentTemplate="{DataTemplate account:RegisterPage}" />
-    <ShellContent Route="Login" ContentTemplate="{DataTemplate account:LoginPage}" />
+    <ShellItem Route="LoginPage" FlyoutItemIsVisible="False">
+        <ShellContent ContentTemplate="{DataTemplate account:LoginPage}" />
+    </ShellItem>
 
 </Shell>

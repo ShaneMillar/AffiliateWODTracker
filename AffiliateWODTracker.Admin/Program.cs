@@ -19,7 +19,7 @@ var connectionString = builder.Configuration.GetConnectionString("DefaultConnect
 
 
 
-builder.Services.AddIdentity<OwnerEntity, IdentityRole>()
+builder.Services.AddIdentity<IdentityUser, IdentityRole>()
     .AddEntityFrameworkStores<ApplicationDataContext>()
     .AddDefaultTokenProviders();
 

@@ -18,7 +18,7 @@ namespace AffiliateWODTracker.Data.DataModels
         // Navigation properties
         public virtual ICollection<MemberEntity> Members { get; set; } 
 
-        public virtual OwnerEntity Owner { get; set; }
+        public virtual IdentityUser Owner { get; set; }
 
     }
 }
