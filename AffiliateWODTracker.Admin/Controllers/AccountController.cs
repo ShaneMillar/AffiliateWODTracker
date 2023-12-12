@@ -30,7 +30,7 @@ public class AccountController : Controller
     {
         if (ModelState.IsValid)
         {
-            var user = new OwnerEntity { UserName = model.Email, Email = model.Email };
+            var user = new OwnerEntity { UserName = model.Email, Email = model.Email, IsAdmin = true };
             var result = await _userManager.CreateAsync(user, model.Password);
             if (result.Succeeded)
             {

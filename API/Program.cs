@@ -1,15 +1,18 @@
 using AffiliateWODTracker.Core.Common;
-using AffiliateWODTracker.Data.DataModels;
 using AffiliateWODTracker.Data.Interfaces;
 using AffiliateWODTracker.Data.Repositories;
 using AffiliateWODTracker.Services.Interfaces;
 using AffiliateWODTracker.Services.Managers;
 using AffiliateWODTracker.Services.Services;
-using Microsoft.AspNetCore.Hosting;
 using Microsoft.AspNetCore.Identity;
 using Microsoft.EntityFrameworkCore;
 
 var builder = WebApplication.CreateBuilder(args);
+
+builder.Services.AddDbContext<ApplicationDataContext>(options =>
+        options.UseSqlServer(
+            builder.Configuration.GetConnectionString("DefaultConnection")));
+
 
 // Add services to the container.
 
@@ -18,21 +21,17 @@ builder.Services.AddControllers();
 builder.Services.AddEndpointsApiExplorer();
 builder.Services.AddSwaggerGen();
 
-builder.Services.AddDbContext<ApplicationDataContext>(options =>
-        options.UseSqlServer(
-            builder.Configuration.GetConnectionString("DefaultConnection")));
 
 //builder.Services.AddDefaultIdentity<IdentityUser>(options => options.SignIn.RequireConfirmedAccount = true)
 //    .AddRoles<IdentityRole>() // Add roles if you plan to use them
 //    .AddEntityFrameworkStores<ApplicationDataContext>();
 
 
-builder.Services.AddIdentity<OwnerEntity, IdentityRole>()
+builder.Services.AddIdentity<IdentityUser, IdentityRole>()
     .AddEntityFrameworkStores<ApplicationDataContext>()
     .AddDefaultTokenProviders();
 
 // Repositories
-builder.Services.AddScoped<IUserRepository, UserRepository>();
 builder.Services.AddScoped<IAffiliateRepository, AffiliateRepository>();
 builder.Services.AddScoped<IMemberRepository, MemberRepository>();
 

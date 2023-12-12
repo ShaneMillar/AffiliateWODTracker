@@ -11,5 +11,6 @@ namespace AffiliateWODTracker.Data.Interfaces
         Task<MemberEntity> FindMemberById(int id);
         Task UpdateAsync(MemberEntity member);
         Task DeleteAsync(int id);
+        Task InsertAsync(MemberEntity member);
     }
 }

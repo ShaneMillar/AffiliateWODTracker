@@ -50,7 +50,7 @@ public partial class RegisterPage : ContentPage
         if (response.IsSuccessStatusCode)
         {
             await DisplayAlert("Success", "Account created successfully.", "OK");
-            await Shell.Current.GoToAsync("//LoginPage");
+            await Shell.Current.GoToAsync("LoginPage");
         }
         else
         {

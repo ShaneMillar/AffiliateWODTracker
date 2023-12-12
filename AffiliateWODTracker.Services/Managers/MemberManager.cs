@@ -1,5 +1,6 @@
 ﻿using AffiliateWODTracker.Core.Common;
 using AffiliateWODTracker.Core.ViewModels;
+using AffiliateWODTracker.Data.DataModels;
 using AffiliateWODTracker.Data.Interfaces;
 using AffiliateWODTracker.Services.Interfaces;
 using AutoMapper;
@@ -79,6 +80,13 @@ namespace AffiliateWODTracker.Services.Managers
         public async Task DeleteMember(int memberId)
         {
             await _memberRepository.DeleteAsync(memberId);
+        }
+
+        public async Task CreateMember(Core.Models.Member member)
+        {
+            var memberEntity = _mapper.Map<MemberEntity>(member);
+
+            await _memberRepository.InsertAsync(memberEntity);
         }
     }
 }

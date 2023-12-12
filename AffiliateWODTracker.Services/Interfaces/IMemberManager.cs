@@ -12,5 +12,6 @@ namespace AffiliateWODTracker.Services.Interfaces
         Task UpdateMemberToRejected(int memberId);
         Task UpdateMemberToPending(int memberId);
         Task DeleteMember(int memberId);
+        Task CreateMember(Core.Models.Member member);
     }
 }

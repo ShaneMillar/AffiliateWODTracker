@@ -66,5 +66,11 @@ namespace AffiliateWODTracker.Data.Repositories
                 await _context.SaveChangesAsync();
             }
         }
+
+        public async Task InsertAsync(MemberEntity member)
+        {
+            await _context.Members.AddAsync(member);
+            await _context.SaveChangesAsync();
+        }
     }
 }
