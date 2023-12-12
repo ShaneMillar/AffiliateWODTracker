@@ -103,11 +103,12 @@ namespace AffiliateWODTracker.API.Controllers
             var result = _signInManager.SignOutAsync();
             if (result.IsCompletedSuccessfully)
             {
-                return Ok(new { Message = "Login successful." });
+                return Ok(new { Message = "Logout successful." });
             }
             else
             {
-                return BadRequest();
+                _logger.LogError("An error occurred during logout.");
+                return StatusCode(500, new { Message = "An error occurred during logout." });
             }
         }
 
