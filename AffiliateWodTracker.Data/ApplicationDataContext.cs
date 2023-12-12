@@ -72,6 +72,14 @@ public class ApplicationDataContext : IdentityDbContext
          .HasForeignKey(m => m.StatusId)
          .OnDelete(DeleteBehavior.Restrict);
 
+        // Configure Member - dentityUser relationship
+
+        modelBuilder.Entity<MemberEntity>()
+         .HasOne(m => m.User)
+         .WithMany()
+         .HasForeignKey(m => m.UserId)
+         .OnDelete(DeleteBehavior.Restrict);
+
         #endregion
 
 

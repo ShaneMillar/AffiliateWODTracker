@@ -1,14 +1,12 @@
 ﻿using AffiliateWODTracker.Core.Common;
 using AffiliateWODTracker.Core.Models;
 using AffiliateWODTracker.Services.Interfaces;
-using AffiliateWODTracker.Services.Managers;
-using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Identity;
 using Microsoft.AspNetCore.Mvc;
 
 namespace AffiliateWODTracker.API.Controllers
 {
-    [AllowAnonymous]
+
     [ApiController]
     [Route("[controller]")]
     public class AccountController : Controller
@@ -49,7 +47,8 @@ namespace AffiliateWODTracker.API.Controllers
                     DateOfBirth = model.DateOfBirth,
                     PhoneNumber = model.PhoneNumber,
                     StatusId = (int)MemberStatus.Pending,
-                    CreatedDate = DateTime.Now
+                    CreatedDate = DateTime.Now,
+                    UserId = user.Id
                 };
 
                 var result = await _userManager.CreateAsync(user, model.Password);
@@ -61,7 +60,6 @@ namespace AffiliateWODTracker.API.Controllers
                 }
 
                 await _memberManager.CreateMember(member);
-                await _signInManager.SignInAsync(user, isPersistent: false);
 
                 return Ok(new { Message = "Registration successful." });
             }
@@ -69,6 +67,47 @@ namespace AffiliateWODTracker.API.Controllers
             {
                 _logger.LogError(ex, "An error occurred during registration.");
                 return StatusCode(500, new { Message = "An error occurred during registration." });
+            }
+        }
+
+        [HttpPost(nameof(Login), Name = nameof(Login))]
+        public async Task<IActionResult> Login(LoginModel model)
+        {
+            if (ModelState.IsValid)
+            {
+                try
+                {
+                    var result = await _signInManager.PasswordSignInAsync(model.Email, model.Password, model.RememberMe, lockoutOnFailure: false);
+                    if (result.Succeeded)
+                    {
+                        return Ok(new { Message = "Login successful." });
+                    }
+                    else
+                    {
+                        return BadRequest();
+                    }
+                }
+                catch (Exception ex)
+                {
+                    _logger.LogError(ex, "An error occurred during registration.");
+                    return StatusCode(500, new { Message = "An error occurred during Login." });
+                }
+            }
+            return BadRequest();
+        }
+
+        [HttpPost]
+        [HttpPost(nameof(Logout), Name = nameof(Logout))]
+        public async Task<IActionResult> Logout()
+        {
+            var result = _signInManager.SignOutAsync();
+            if (result.IsCompletedSuccessfully)
+            {
+                return Ok(new { Message = "Login successful." });
+            }
+            else
+            {
+                return BadRequest();
             }
         }
 

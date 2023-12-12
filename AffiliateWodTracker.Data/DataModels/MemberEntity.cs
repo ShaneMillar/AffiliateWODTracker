@@ -1,4 +1,5 @@
-﻿using System.ComponentModel.DataAnnotations;
+﻿using Microsoft.AspNetCore.Identity;
+using System.ComponentModel.DataAnnotations;
 
 namespace AffiliateWODTracker.Data.DataModels
 {
@@ -18,11 +19,15 @@ namespace AffiliateWODTracker.Data.DataModels
 
         public DateTime CreatedDate { get; set; }
 
+        public string UserId { get; set; }
+
 
         // Navigation properties
         public virtual AffiliateEntity Affiliate { get; set; } 
 
         public virtual StatusEntity Status { get; set; }
+
+        public virtual IdentityUser User { get; set; }
 
     }
 }

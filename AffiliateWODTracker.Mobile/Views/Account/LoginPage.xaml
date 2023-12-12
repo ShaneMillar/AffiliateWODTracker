@@ -38,7 +38,7 @@
         </Frame>
 
         <Frame BorderColor="Gray" CornerRadius="5" Padding="5">
-            <Entry x:Name="passwordEntry" Placeholder="Password" TextColor="Black" PlaceholderColor="Gray" BackgroundColor="White" >
+            <Entry x:Name="passwordEntry" Placeholder="Password" IsPassword="True" TextColor="Black" PlaceholderColor="Gray" BackgroundColor="White" >
                 <VisualStateManager.VisualStateGroups>
                     <VisualStateGroupList>
                         <VisualStateGroup>
@@ -57,6 +57,11 @@
                 </VisualStateManager.VisualStateGroups>
             </Entry>
         </Frame>
+
+        <HorizontalStackLayout Spacing="10">
+            <CheckBox x:Name="rememberMeCheckBox" Color="Black" VerticalOptions="Center"/>
+            <Label Text="Remember Me" TextColor="Black" VerticalOptions="Center"/>
+        </HorizontalStackLayout>
 
         <Button Text="Login" Clicked="OnLoginClicked" BackgroundColor="Black" TextColor="White" />
     </VerticalStackLayout>

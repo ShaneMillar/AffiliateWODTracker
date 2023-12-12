@@ -3,18 +3,49 @@
        xmlns:x="http://schemas.microsoft.com/winfx/2009/xaml"
        xmlns:pages="clr-namespace:AffiliateWODTracker.Mobile"
        xmlns:account="clr-namespace:AffiliateWODTracker.Mobile.Views.Account"
-       x:Class="AffiliateWODTracker.Mobile.AppShell">
+       xmlns:home="clr-namespace:AffiliateWODTracker.Mobile.Views.Home"
+       x:Class="AffiliateWODTracker.Mobile.AppShell"
+       FlyoutBehavior="Flyout">
 
-    <ShellItem Route="MainPage" FlyoutItemIsVisible="False">
+
+    <!-- Define the flyout menu items -->
+    <MenuItem Text="Logout"  Command="{Binding LogoutCommand}" />
+    
+    <TabBar>
+        <!-- Home tab -->
+        <ShellContent 
+            Icon="home_icon"
+            Route="HomePage"
+            ContentTemplate="{DataTemplate home:HomePage}" />
+
+        <!-- Notifications tab -->
+        <ShellContent 
+            Icon="notification_icon"
+            Route="notifications"
+            ContentTemplate="{DataTemplate home:HomePage}" />
+
+        <!-- Dumbbell/Workouts tab -->
+        <ShellContent 
+            Icon="dumbbell_icon"
+            Route="workouts"
+            ContentTemplate="{DataTemplate home:HomePage}" />
+    </TabBar>
+    <!-- ... other shell content ... -->
+
+<ShellItem Route="MainPage" FlyoutItemIsVisible="False">
         <ShellContent ContentTemplate="{DataTemplate pages:MainPage}" />
     </ShellItem>
 
-    <ShellItem Route="RegisterPage" FlyoutItemIsVisible="False">
+    <ShellItem Route="RegisterPage" FlyoutItemIsVisible="False" >
         <ShellContent ContentTemplate="{DataTemplate account:RegisterPage}" />
     </ShellItem>
 
     <ShellItem Route="LoginPage" FlyoutItemIsVisible="False">
         <ShellContent ContentTemplate="{DataTemplate account:LoginPage}" />
+    </ShellItem>
+
+    <ShellItem Route="HomePage" FlyoutItemIsVisible="True">
+        <ShellContent ContentTemplate="{DataTemplate home:HomePage}" />
     </ShellItem>
 
 </Shell>
