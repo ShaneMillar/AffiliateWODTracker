@@ -6,11 +6,11 @@ using System.Text;
 
 namespace AffiliateWODTracker.Auth.Authenticate
 {
-    public class JWTValidationMiddleware
+    public class JWTValidationService
     {
         private readonly IConfiguration _configuration;
 
-        public JWTValidationMiddleware(IConfiguration configuration) 
+        public JWTValidationService(IConfiguration configuration) 
         {
             _configuration = configuration;
         }
