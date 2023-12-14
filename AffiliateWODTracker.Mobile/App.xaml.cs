@@ -28,7 +28,7 @@ namespace AffiliateWODTracker.Mobile
             }
             else
             {
-                await Shell.Current.GoToAsync("//HomePage");
+                await Shell.Current.GoToAsync("//LoginPage");
             }
         }
     }

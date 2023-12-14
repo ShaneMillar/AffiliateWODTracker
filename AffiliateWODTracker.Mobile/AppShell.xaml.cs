@@ -41,7 +41,7 @@ namespace AffiliateWODTracker.Mobile
 
         private async Task<HttpResponseMessage> LogoutUserAsync()
         {
-            var apiUrl = $"{MobileConfig.HttpConfig.API}/Account/Logout";
+            var apiUrl = $"{MobileConfig.HttpConfig.API}{APIEndpoints.AccountController.Logout}";
             return await _httpClient.PostAsync(apiUrl, null);
         }
     }

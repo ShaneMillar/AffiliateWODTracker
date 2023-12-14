@@ -20,7 +20,7 @@
         }
         public static class WODsController
         {
-            public const string PostWorkoutApiEndpoint = "/Workout/PostWorkout";
+            public const string PostWorkoutApiEndpoint = "/WOD/PostWorkout";
         }
     }
 }

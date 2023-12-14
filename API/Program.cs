@@ -38,6 +38,7 @@ builder.Services.AddScoped<IMemberRepository, MemberRepository>();
 //Managers
 builder.Services.AddScoped<IAffiliateManager, AffiliateManager>();
 builder.Services.AddScoped<IMemberManager, MemberManager>();
+builder.Services.AddScoped<IWODManager, WODManager>();
 
 //Services
 builder.Services.AddAutoMapper(typeof(MappingService));

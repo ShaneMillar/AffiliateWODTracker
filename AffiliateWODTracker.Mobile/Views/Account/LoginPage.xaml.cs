@@ -2,7 +2,6 @@ using AffiliateWODTracker.Core.Common;
 using AffiliateWODTracker.Core.Models;
 using Newtonsoft.Json;
 using Newtonsoft.Json.Linq;
-using System.Net.Http.Headers;
 using System.Text;
 using System.Windows.Input;
 
@@ -75,7 +74,7 @@ public partial class LoginPage : ContentPage
     {
         var json = JsonConvert.SerializeObject(userLogin);
         var content = new StringContent(json, Encoding.UTF8, "application/json");
-        var apiUrl = $"{MobileConfig.HttpConfig.API}/Account/Login";
+        var apiUrl = $"{MobileConfig.HttpConfig.API}{APIEndpoints.AccountController.Login}";
         var response = await _httpClient.PostAsync(apiUrl, content);
 
         if (response.IsSuccessStatusCode)

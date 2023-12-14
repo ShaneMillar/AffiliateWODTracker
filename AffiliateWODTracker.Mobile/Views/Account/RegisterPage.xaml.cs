@@ -17,7 +17,7 @@ public partial class RegisterPage : ContentPage
 
     private async Task LoadAffiliatesAsync()
     {
-        var response = await _httpClient.GetAsync($"{MobileConfig.HttpConfig.API}/Affiliate/GetAffiliates");
+        var response = await _httpClient.GetAsync($"{MobileConfig.HttpConfig.API}{APIEndpoints.AffiliateController.GetAffiliates}");
         if (!response.IsSuccessStatusCode)
         {
             await DisplayAlert("Error", "Unable to load affiliates. Please try again later.", "OK");
@@ -91,7 +91,7 @@ public partial class RegisterPage : ContentPage
     {
         var json = JsonConvert.SerializeObject(userRegistration);
         var content = new StringContent(json, Encoding.UTF8, "application/json");
-        var apiUrl = $"{MobileConfig.HttpConfig.API}/Account/Register";
+        var apiUrl = $"{MobileConfig.HttpConfig.API}{APIEndpoints.AccountController.Register}";
         return await _httpClient.PostAsync(apiUrl, content);
     }
 }
