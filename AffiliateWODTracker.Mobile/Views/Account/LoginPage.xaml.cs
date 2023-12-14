@@ -1,6 +1,8 @@
 using AffiliateWODTracker.Core.Common;
 using AffiliateWODTracker.Core.Models;
 using Newtonsoft.Json;
+using Newtonsoft.Json.Linq;
+using System.Net.Http.Headers;
 using System.Text;
 using System.Windows.Input;
 
@@ -17,31 +19,30 @@ public partial class LoginPage : ContentPage
         BindingContext = this;
     }
     private async void OnLoginClicked(object sender, EventArgs e)
-	{
+    {
         if (!ValidateInputs())
         {
             await DisplayAlert("Error", "Please fill in all fields.", "OK");
             return;
         }
 
-        // Save the state of the Remember Me checkbox
         Preferences.Set("RememberMe", rememberMeCheckBox.IsChecked);
 
         var userLogin = CreateUserLogin();
-        var response = await LoginUserAsync(userLogin);
+        var token = await LoginUserAsync(userLogin);
 
-        if (response.IsSuccessStatusCode)
+        if (!string.IsNullOrEmpty(token))
         {
+            await SecureStorage.SetAsync("jwt_token", token);
             Preferences.Set("IsLoggedIn", true);
             await Shell.Current.GoToAsync("//HomePage");
         }
         else
         {
-            var errorResponse = await response.Content.ReadAsStringAsync();
-            await DisplayAlert("Login Failed", errorResponse, "OK");
+            await DisplayAlert("Login Failed", "Invalid login attempt.", "OK");
         }
-
     }
+
 
     protected override void OnAppearing()
     {
@@ -70,17 +71,31 @@ public partial class LoginPage : ContentPage
         };
     }
 
-    private async Task<HttpResponseMessage> LoginUserAsync(LoginModel userLogin)
+    private async Task<string> LoginUserAsync(LoginModel userLogin)
     {
         var json = JsonConvert.SerializeObject(userLogin);
         var content = new StringContent(json, Encoding.UTF8, "application/json");
         var apiUrl = $"{MobileConfig.HttpConfig.API}/Account/Login";
-        return await _httpClient.PostAsync(apiUrl, content);
+        var response = await _httpClient.PostAsync(apiUrl, content);
+
+        if (response.IsSuccessStatusCode)
+        {
+            var responseContent = await response.Content.ReadAsStringAsync();
+            var token = JObject.Parse(responseContent)["token"].ToString();
+            return token;
+        }
+        else
+        {
+            return null;
+        }
     }
+
 
     private async void OnRegisterClicked()
     {
         // Navigate to the Register Page
         await Shell.Current.GoToAsync("RegisterPage");
     }
+
+   
 }

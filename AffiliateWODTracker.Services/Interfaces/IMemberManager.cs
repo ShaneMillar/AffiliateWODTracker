@@ -1,4 +1,5 @@
-﻿using AffiliateWODTracker.Core.ViewModels;
+﻿using AffiliateWODTracker.Core.Models;
+using AffiliateWODTracker.Core.ViewModels;
 
 namespace AffiliateWODTracker.Services.Interfaces
 {
@@ -8,6 +9,7 @@ namespace AffiliateWODTracker.Services.Interfaces
         Task<List<MemberViewModel>> GetRequestedMembersByAffiliateId(int affiliateId);
         Task<int> GetActiveMembersCountByAffiliateId(int affiliateId);
         Task<int> GetPendingRequestsCountByAffiliateId(int affiliateId);
+        Task<Member> GetMemberByUserId(string userId);
         Task UpdateMemberToAccepted(int memberId);
         Task UpdateMemberToRejected(int memberId);
         Task UpdateMemberToPending(int memberId);

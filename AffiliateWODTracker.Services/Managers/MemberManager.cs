@@ -1,9 +1,11 @@
 ﻿using AffiliateWODTracker.Core.Common;
+using AffiliateWODTracker.Core.Models;
 using AffiliateWODTracker.Core.ViewModels;
 using AffiliateWODTracker.Data.DataModels;
 using AffiliateWODTracker.Data.Interfaces;
 using AffiliateWODTracker.Services.Interfaces;
 using AutoMapper;
+using AutoMapper.Execution;
 
 namespace AffiliateWODTracker.Services.Managers
 {
@@ -57,6 +59,12 @@ namespace AffiliateWODTracker.Services.Managers
             memberEntity.StatusId = (int)MemberStatus.Accepted;
 
             await _memberRepository.UpdateAsync(memberEntity);
+        }
+
+        public async Task<Core.Models.Member> GetMemberByUserId(string userId)
+        {
+            var member = await _memberRepository.GetMemberByUserId(userId);
+            return _mapper.Map<Core.Models.Member>(member);
         }
 
         public async Task UpdateMemberToRejected(int memberId)

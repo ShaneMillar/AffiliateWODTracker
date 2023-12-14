@@ -23,7 +23,9 @@ namespace AffiliateWODTracker.Mobile
 
                 if (response.IsSuccessStatusCode)
                 {
-                  await Shell.Current.GoToAsync("//LoginPage"); // Navigate to a safe page like the login page
+                    SecureStorage.Remove("jwt_token");
+                    Preferences.Set("IsLoggedIn", false);
+                    await Shell.Current.GoToAsync("//LoginPage"); // Navigate to a safe page like the login page
                 }
                 else
                 {

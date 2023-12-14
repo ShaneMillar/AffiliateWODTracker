@@ -3,6 +3,10 @@ using AffiliateWODTracker.Core.Models;
 using AffiliateWODTracker.Services.Interfaces;
 using Microsoft.AspNetCore.Identity;
 using Microsoft.AspNetCore.Mvc;
+using Microsoft.IdentityModel.Tokens;
+using System.IdentityModel.Tokens.Jwt;
+using System.Security.Claims;
+using System.Text;
 
 namespace AffiliateWODTracker.API.Controllers
 {
@@ -15,13 +19,15 @@ namespace AffiliateWODTracker.API.Controllers
         private readonly SignInManager<IdentityUser> _signInManager;
         private readonly IMemberManager _memberManager;
         private readonly ILogger<AccountController> _logger;
+        private readonly IConfiguration configuration;
 
-        public AccountController(UserManager<IdentityUser> userManager, SignInManager<IdentityUser> signInManager, IMemberManager memberManager, ILogger<AccountController> logger)
+        public AccountController(UserManager<IdentityUser> userManager, SignInManager<IdentityUser> signInManager, IMemberManager memberManager, ILogger<AccountController> logger, IConfiguration configuration)
         {
             _userManager = userManager;
             _signInManager = signInManager;
             _memberManager = memberManager;
             _logger = logger;
+            this.configuration = configuration;
         }
 
 
@@ -80,20 +86,47 @@ namespace AffiliateWODTracker.API.Controllers
                     var result = await _signInManager.PasswordSignInAsync(model.Email, model.Password, model.RememberMe, lockoutOnFailure: false);
                     if (result.Succeeded)
                     {
-                        return Ok(new { Message = "Login successful." });
+                        var user = await _userManager.FindByEmailAsync(model.Email);
+                        if (user != null)
+                        {
+                            var token = GenerateJwtToken(user.Id);
+                            return Ok(new { Token = token, Message = "Login successful." });
+                        }
+                        return BadRequest(new { Message = "User not found." });
                     }
                     else
                     {
-                        return BadRequest();
+                        return BadRequest(new { Message = "Invalid login attempt." });
                     }
                 }
                 catch (Exception ex)
                 {
-                    _logger.LogError(ex, "An error occurred during registration.");
+                    _logger.LogError(ex, "An error occurred during login.");
                     return StatusCode(500, new { Message = "An error occurred during Login." });
                 }
             }
             return BadRequest();
+        }
+
+        private string GenerateJwtToken(string userId)
+        {
+            var securityKey = new SymmetricSecurityKey(Encoding.UTF8.GetBytes(configuration["Jwt:Key"]));
+            var credentials = new SigningCredentials(securityKey, SecurityAlgorithms.HmacSha256);
+
+            var claims = new[]
+            {
+                new Claim(JwtRegisteredClaimNames.Sub, userId),
+                new Claim(JwtRegisteredClaimNames.Jti, Guid.NewGuid().ToString()),
+            };
+
+            var token = new JwtSecurityToken(
+                issuer: configuration["Jwt:Issuer"],
+                audience: configuration["Jwt:Audience"],
+                claims: claims,
+                expires: DateTime.Now.AddMinutes(120),
+                signingCredentials: credentials);
+
+            return new JwtSecurityTokenHandler().WriteToken(token);
         }
 
         [HttpPost]
@@ -111,6 +144,10 @@ namespace AffiliateWODTracker.API.Controllers
                 return StatusCode(500, new { Message = "An error occurred during logout." });
             }
         }
+
+
+
+      
 
     }
 }

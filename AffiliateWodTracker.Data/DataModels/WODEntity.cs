@@ -12,7 +12,6 @@ namespace AffiliateWODTracker.Data.DataModels
         public int AffiliateId { get; set; }
         public DateTime TimeCap { get; set; }
         public DateTime CreatedDate { get; set; }
-
         public string UserId { get; set; }
 
         //Navigation Properties

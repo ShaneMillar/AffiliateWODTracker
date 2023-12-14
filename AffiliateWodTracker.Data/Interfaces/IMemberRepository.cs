@@ -9,6 +9,8 @@ namespace AffiliateWODTracker.Data.Interfaces
         Task<int> GetActiveMembersCountByAffiliateId(int affiliateId);
         Task<int> GetPendingRequestsCountByAffiliateId(int affiliateId);
         Task<MemberEntity> FindMemberById(int id);
+
+        Task<MemberEntity> GetMemberByUserId(string userId);
         Task UpdateAsync(MemberEntity member);
         Task DeleteAsync(int id);
         Task InsertAsync(MemberEntity member);

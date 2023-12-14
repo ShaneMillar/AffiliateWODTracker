@@ -4,6 +4,7 @@
        xmlns:pages="clr-namespace:AffiliateWODTracker.Mobile"
        xmlns:account="clr-namespace:AffiliateWODTracker.Mobile.Views.Account"
        xmlns:home="clr-namespace:AffiliateWODTracker.Mobile.Views.Home"
+       xmlns:workout="clr-namespace:AffiliateWODTracker.Mobile.Views.Workouts"
        x:Class="AffiliateWODTracker.Mobile.AppShell"
        Shell.TitleColor="White"
         FlyoutBehavior="Flyout"
@@ -23,6 +24,12 @@
             Icon="home_icon"
             Route="HomePage"
             ContentTemplate="{DataTemplate home:HomePage}" />
+
+        <!-- Add Workout tab -->
+        <ShellContent 
+           Icon="add_icon"
+           Route="AddWorkout"
+           ContentTemplate="{DataTemplate workout:AddWorkout}" />
 
         <!-- Notifications tab -->
         <ShellContent 

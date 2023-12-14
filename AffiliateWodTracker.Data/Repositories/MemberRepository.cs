@@ -51,6 +51,22 @@ namespace AffiliateWODTracker.Data.Repositories
             return await _context.Members.FindAsync(id);
         }
 
+        public async Task<MemberEntity> GetMemberByUserId(string userId)
+        {
+            try
+            {
+                var member = await _context.Members
+                                           .FirstOrDefaultAsync(m => m.UserId == userId);
+
+                return member;
+            }
+            catch (Exception ex)
+            {
+                throw; // Rethrow the exception or handle it as needed
+            }
+        }
+
+
         public async Task UpdateAsync(MemberEntity member)
         {
             _context.Members.Update(member);
