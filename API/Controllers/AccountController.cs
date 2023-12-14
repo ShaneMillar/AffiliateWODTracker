@@ -21,9 +21,9 @@ namespace AffiliateWODTracker.API.Controllers
         private readonly IMemberManager _memberManager;
         private readonly ILogger<AccountController> _logger;
         private readonly IConfiguration configuration;
-        private readonly JWTValidationMiddleware _jwtMiddleware;
+        private readonly JWTValidationService _jwtMiddleware;
 
-        public AccountController(UserManager<IdentityUser> userManager, SignInManager<IdentityUser> signInManager, IMemberManager memberManager, ILogger<AccountController> logger, IConfiguration configuration, JWTValidationMiddleware jwtMiddleware)
+        public AccountController(UserManager<IdentityUser> userManager, SignInManager<IdentityUser> signInManager, IMemberManager memberManager, ILogger<AccountController> logger, IConfiguration configuration, JWTValidationService jwtMiddleware)
         {
             _userManager = userManager;
             _signInManager = signInManager;

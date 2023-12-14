@@ -41,7 +41,7 @@ builder.Services.AddScoped<IMemberManager, MemberManager>();
 
 //Services
 builder.Services.AddAutoMapper(typeof(MappingService));
-builder.Services.AddSingleton<JWTValidationMiddleware>();
+builder.Services.AddSingleton<JWTValidationService>();
 
 
 builder.Services.AddCors(options =>
