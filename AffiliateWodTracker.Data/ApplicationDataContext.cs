@@ -42,13 +42,6 @@ public class ApplicationDataContext : IdentityDbContext
 
         #region Mobile
 
-        // Configure Score - User relationship
-        //modelBuilder.Entity<ScoreEntity>()
-        //    .HasOne(s => s.User)
-        //    .WithMany(u => u.Scores)
-        //    .HasForeignKey(s => s.UserId)
-        //    .OnDelete(DeleteBehavior.Restrict); 
-
         // Configure Score - WOD relationship
         modelBuilder.Entity<ScoreEntity>()
             .HasOne(s => s.WOD)
@@ -72,12 +65,28 @@ public class ApplicationDataContext : IdentityDbContext
          .HasForeignKey(m => m.StatusId)
          .OnDelete(DeleteBehavior.Restrict);
 
-        // Configure Member - dentityUser relationship
+        // Configure Member - IdentityUser relationship
 
         modelBuilder.Entity<MemberEntity>()
          .HasOne(m => m.User)
          .WithMany()
          .HasForeignKey(m => m.UserId)
+         .OnDelete(DeleteBehavior.Restrict);
+
+        // Configure WOD - User relationship
+
+        modelBuilder.Entity<WODEntity>()
+         .HasOne(m => m.User)
+         .WithMany()
+         .HasForeignKey(m => m.UserId)
+         .OnDelete(DeleteBehavior.Restrict);
+
+        // Configure WOD - Affiliate relationship
+
+        modelBuilder.Entity<WODEntity>()
+         .HasOne(m => m.Affiliate)
+         .WithMany()
+         .HasForeignKey(m => m.AffiliateId)
          .OnDelete(DeleteBehavior.Restrict);
 
         #endregion
