@@ -1,3 +1,4 @@
+using AffiliateWODTracker.Auth.Authenticate;
 using AffiliateWODTracker.Core.Common;
 using AffiliateWODTracker.Data.Interfaces;
 using AffiliateWODTracker.Data.Repositories;
@@ -40,6 +41,8 @@ builder.Services.AddScoped<IMemberManager, MemberManager>();
 
 //Services
 builder.Services.AddAutoMapper(typeof(MappingService));
+builder.Services.AddSingleton<JWTValidationMiddleware>();
+
 
 builder.Services.AddCors(options =>
 {
@@ -84,6 +87,7 @@ if (app.Environment.IsDevelopment())
 app.UseCors("MyCorsPolicy");
 
 app.UseHttpsRedirection();
+
 
 app.UseAuthentication();
 app.UseAuthorization();

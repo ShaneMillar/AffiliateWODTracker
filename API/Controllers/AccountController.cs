@@ -1,4 +1,5 @@
-﻿using AffiliateWODTracker.Core.Common;
+﻿using AffiliateWODTracker.Auth.Authenticate;
+using AffiliateWODTracker.Core.Common;
 using AffiliateWODTracker.Core.Models;
 using AffiliateWODTracker.Services.Interfaces;
 using Microsoft.AspNetCore.Identity;
@@ -20,14 +21,16 @@ namespace AffiliateWODTracker.API.Controllers
         private readonly IMemberManager _memberManager;
         private readonly ILogger<AccountController> _logger;
         private readonly IConfiguration configuration;
+        private readonly JWTValidationMiddleware _jwtMiddleware;
 
-        public AccountController(UserManager<IdentityUser> userManager, SignInManager<IdentityUser> signInManager, IMemberManager memberManager, ILogger<AccountController> logger, IConfiguration configuration)
+        public AccountController(UserManager<IdentityUser> userManager, SignInManager<IdentityUser> signInManager, IMemberManager memberManager, ILogger<AccountController> logger, IConfiguration configuration, JWTValidationMiddleware jwtMiddleware)
         {
             _userManager = userManager;
             _signInManager = signInManager;
             _memberManager = memberManager;
             _logger = logger;
             this.configuration = configuration;
+            _jwtMiddleware = jwtMiddleware;
         }
 
 
@@ -89,7 +92,7 @@ namespace AffiliateWODTracker.API.Controllers
                         var user = await _userManager.FindByEmailAsync(model.Email);
                         if (user != null)
                         {
-                            var token = GenerateJwtToken(user.Id);
+                            var token =  _jwtMiddleware.GenerateJwtToken(user.Id);
                             return Ok(new { Token = token, Message = "Login successful." });
                         }
                         return BadRequest(new { Message = "User not found." });
@@ -106,27 +109,6 @@ namespace AffiliateWODTracker.API.Controllers
                 }
             }
             return BadRequest();
-        }
-
-        private string GenerateJwtToken(string userId)
-        {
-            var securityKey = new SymmetricSecurityKey(Encoding.UTF8.GetBytes(configuration["Jwt:Key"]));
-            var credentials = new SigningCredentials(securityKey, SecurityAlgorithms.HmacSha256);
-
-            var claims = new[]
-            {
-                new Claim(JwtRegisteredClaimNames.Sub, userId),
-                new Claim(JwtRegisteredClaimNames.Jti, Guid.NewGuid().ToString()),
-            };
-
-            var token = new JwtSecurityToken(
-                issuer: configuration["Jwt:Issuer"],
-                audience: configuration["Jwt:Audience"],
-                claims: claims,
-                expires: DateTime.Now.AddMinutes(120),
-                signingCredentials: credentials);
-
-            return new JwtSecurityTokenHandler().WriteToken(token);
         }
 
         [HttpPost]
