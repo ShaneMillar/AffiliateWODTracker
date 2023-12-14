@@ -10,24 +10,30 @@ namespace AffiliateWODTracker.Mobile
         public AppShell()
         {
             InitializeComponent();
+
             LogoutCommand = new Command(OnLogoutClicked);
             this.BindingContext = this;
         }
 
         private async void OnLogoutClicked()
         {
-            var response = await LogoutUserAsync();
+            try
+            {
+                var response = await LogoutUserAsync();
 
-            if (response.IsSuccessStatusCode)
-            {
-                await Shell.Current.GoToAsync("//MainPage");
-                Preferences.Set("IsLoggedIn", false);
-                this.FlyoutIsPresented = false;
+                if (response.IsSuccessStatusCode)
+                {
+                  await Shell.Current.GoToAsync("//LoginPage"); // Navigate to a safe page like the login page
+                }
+                else
+                {
+                    var errorResponse = await response.Content.ReadAsStringAsync();
+                    await DisplayAlert("Logout Failed", errorResponse, "OK");
+                }
             }
-            else
+            catch (Exception ex)
             {
-                var errorResponse = await response.Content.ReadAsStringAsync();
-                await DisplayAlert("Logout Failed", errorResponse, "OK");
+                await DisplayAlert("Error", $"An exception occurred: {ex.Message}", "OK");
             }
         }
 

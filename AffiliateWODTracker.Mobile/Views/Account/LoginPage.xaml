@@ -2,6 +2,7 @@
 <ContentPage xmlns="http://schemas.microsoft.com/dotnet/2021/maui"
              xmlns:x="http://schemas.microsoft.com/winfx/2009/xaml"
              x:Class="AffiliateWODTracker.Mobile.Views.Account.LoginPage"
+             Shell.FlyoutBehavior="Disabled"
              BackgroundColor="White">
     <VerticalStackLayout
          Spacing="25"
@@ -64,5 +65,8 @@
         </HorizontalStackLayout>
 
         <Button Text="Login" Clicked="OnLoginClicked" BackgroundColor="Black" TextColor="White" />
+
+        <Button Text="Register" BackgroundColor="Black" TextColor="White" Command="{Binding RegisterCommand}" />
+        
     </VerticalStackLayout>
 </ContentPage>

@@ -2,6 +2,7 @@
 <ContentPage xmlns="http://schemas.microsoft.com/dotnet/2021/maui"
              xmlns:x="http://schemas.microsoft.com/winfx/2009/xaml"
              x:Class="AffiliateWODTracker.Mobile.MainPage"
+             Shell.FlyoutBehavior="Disabled"
              BackgroundColor="White">
 
     <VerticalStackLayout
@@ -16,14 +17,6 @@
             WidthRequest="200"  
             HeightRequest="200"
             Aspect="AspectFit" />
-
-        <Button 
-            Text="Login"
-            TextColor="White"
-            BackgroundColor="Black"
-            CornerRadius="20"
-            HeightRequest="60"
-            Command="{Binding LoginCommand}"/>
 
         <Button 
             Text="Register"

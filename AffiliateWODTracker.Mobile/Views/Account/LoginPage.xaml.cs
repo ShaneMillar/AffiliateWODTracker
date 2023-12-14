@@ -2,16 +2,20 @@ using AffiliateWODTracker.Core.Common;
 using AffiliateWODTracker.Core.Models;
 using Newtonsoft.Json;
 using System.Text;
+using System.Windows.Input;
 
 namespace AffiliateWODTracker.Mobile.Views.Account;
 
 public partial class LoginPage : ContentPage
 {
+    public ICommand RegisterCommand { get; }
     private readonly HttpClient _httpClient = new HttpClient();
     public LoginPage()
 	{
 		InitializeComponent();
-	}
+        RegisterCommand = new Command(OnRegisterClicked);
+        BindingContext = this;
+    }
     private async void OnLoginClicked(object sender, EventArgs e)
 	{
         if (!ValidateInputs())
@@ -72,5 +76,11 @@ public partial class LoginPage : ContentPage
         var content = new StringContent(json, Encoding.UTF8, "application/json");
         var apiUrl = $"{MobileConfig.HttpConfig.API}/Account/Login";
         return await _httpClient.PostAsync(apiUrl, content);
+    }
+
+    private async void OnRegisterClicked()
+    {
+        // Navigate to the Register Page
+        await Shell.Current.GoToAsync("RegisterPage");
     }
 }

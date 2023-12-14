@@ -5,13 +5,19 @@
        xmlns:account="clr-namespace:AffiliateWODTracker.Mobile.Views.Account"
        xmlns:home="clr-namespace:AffiliateWODTracker.Mobile.Views.Home"
        x:Class="AffiliateWODTracker.Mobile.AppShell"
-       FlyoutBehavior="Flyout">
+       Shell.TitleColor="White"
+        FlyoutBehavior="Flyout"
+       >
 
+    <Shell.ToolbarItems>
+        <ToolbarItem Text="MFIT"
+                     Priority="0" />
+    </Shell.ToolbarItems>
 
-    <!-- Define the flyout menu items -->
-    <MenuItem Text="Logout"  Command="{Binding LogoutCommand}" />
-    
-    <TabBar>
+    <MenuItem Text="Logout"
+              Command="{Binding LogoutCommand}" />
+
+        <TabBar>
         <!-- Home tab -->
         <ShellContent 
             Icon="home_icon"
