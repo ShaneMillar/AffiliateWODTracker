@@ -1,4 +1,6 @@
-﻿using Microsoft.Extensions.Logging;
+﻿using AffiliateWODTracker.Mobile.Service;
+using AffiliateWODTracker.Mobile.Views.Workouts;
+using Microsoft.Extensions.Logging;
 
 namespace AffiliateWODTracker.Mobile
 {
@@ -15,8 +17,12 @@ namespace AffiliateWODTracker.Mobile
                     fonts.AddFont("OpenSans-Semibold.ttf", "OpenSansSemibold");
                 });
 
+            builder.Services.AddSingleton<HttpClientService>();
+
+            builder.Services.AddTransient<AddWorkout>();
+
 #if DEBUG
-    		builder.Logging.AddDebug();
+            builder.Logging.AddDebug();
 #endif
 
             return builder.Build();

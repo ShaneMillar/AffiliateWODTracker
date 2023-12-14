@@ -1,33 +1,52 @@
 using AffiliateWODTracker.Core.Common;
 using AffiliateWODTracker.Core.Models;
+using AffiliateWODTracker.Mobile.Service;
 using Newtonsoft.Json;
-using System.Net.Http.Headers;
 using System.Text;
 
 namespace AffiliateWODTracker.Mobile.Views.Workouts;
 
 public partial class AddWorkout : ContentPage
 {
-    private Member member = new Member();
+    private readonly HttpClientService _httpClientService; 
+    private Member _member;
 
-    public AddWorkout()
+ 
+    public AddWorkout(HttpClientService httpClientService)
     {
         InitializeComponent();
-        GetCurrentMember();
+        _httpClientService = httpClientService; 
     }
 
-    private async Task GetCurrentMember()
-    {
-        var httpClient = await GetHttpClientAsync();
-        var response = await httpClient.GetAsync($"{MobileConfig.HttpConfig.API}/Member/GetCurrentMember");
-        if (!response.IsSuccessStatusCode)
-        {
-            await DisplayAlert("Error", "Unable to retrieve current member. Please try again later.", "OK");
-            return;
-        }
 
-        var content = await response.Content.ReadAsStringAsync();
-        member = JsonConvert.DeserializeObject<Member>(content);
+    protected override async void OnAppearing()
+    {
+        base.OnAppearing();
+        await InitializeMemberAsync();
+    }
+
+    private async Task InitializeMemberAsync()
+    {
+        try
+        {
+            var httpClient = await _httpClientService.GetClientAsync();
+            var response = await httpClient.GetAsync($"{MobileConfig.HttpConfig.API}{APIEndpoints.MembersController.GetCurrentMemberApiEndpoint}");
+
+            if (response.IsSuccessStatusCode)
+            {
+                var content = await response.Content.ReadAsStringAsync();
+                _member = JsonConvert.DeserializeObject<Member>(content);
+            }
+            else
+            {
+                await DisplayAlert("Error", "Unable to retrieve current member. Please try again later.", "OK");
+            }
+        }
+        catch (Exception ex)
+        {
+            // Handle the exception, log it, and provide feedback to the user.
+            await DisplayAlert("Error", $"An unexpected error occurred: {ex.Message}", "OK");
+        }
     }
 
     private async void OnPostWorkoutClicked(object sender, EventArgs e)
@@ -39,22 +58,33 @@ public partial class AddWorkout : ContentPage
         }
 
         var workout = CreateWorkout();
-        var httpClient = await GetHttpClientAsync();
-        var json = JsonConvert.SerializeObject(workout);
-        var content = new StringContent(json, Encoding.UTF8, "application/json");
+        await PostWorkoutAsync(workout);
+    }
 
-        // Assuming /Workout/PostWorkout is your API endpoint for posting workouts
-        var response = await httpClient.PostAsync($"{MobileConfig.HttpConfig.API}/Workout/PostWorkout", content);
-
-        if (response.IsSuccessStatusCode)
+    private async Task PostWorkoutAsync(WODModel workout)
+    {
+        try
         {
-            await DisplayAlert("Success", "Workout posted successfully.", "OK");
-            // Navigate back to home or another page as necessary
+            var httpClient = await _httpClientService.GetClientAsync();
+            var json = JsonConvert.SerializeObject(workout);
+            var content = new StringContent(json, Encoding.UTF8, "application/json");
+
+            var response = await httpClient.PostAsync($"{MobileConfig.HttpConfig.API}{APIEndpoints.WODsController.PostWorkoutApiEndpoint}", content);
+
+            if (response.IsSuccessStatusCode)
+            {
+                await DisplayAlert("Success", "Workout posted successfully.", "OK");
+            }
+            else
+            {
+                var errorResponse = await response.Content.ReadAsStringAsync();
+                await DisplayAlert("Error", $"Failed to post workout: {errorResponse}", "OK");
+            }
         }
-        else
+        catch (Exception ex)
         {
-            var errorResponse = await response.Content.ReadAsStringAsync();
-            await DisplayAlert("Error", $"Failed to post workout: {errorResponse}", "OK");
+            // Handle the exception, log it, and provide feedback to the user.
+            await DisplayAlert("Error", $"An unexpected error occurred: {ex.Message}", "OK");
         }
     }
 
@@ -72,19 +102,8 @@ public partial class AddWorkout : ContentPage
             Title = titleEntry.Text,
             Description = descriptionEditor.Text,
             CreatedDate = DateTime.Now,
-            AffiliateId = member.AffiliateId,
-            UserId = member.UserId
+            AffiliateId = _member.AffiliateId,
+            UserId = _member.UserId
         };
-    }
-
-    private async Task<HttpClient> GetHttpClientAsync()
-    {
-        var client = new HttpClient();
-        var token = await SecureStorage.GetAsync("jwt_token");
-        if (!string.IsNullOrEmpty(token))
-        {
-            client.DefaultRequestHeaders.Authorization = new AuthenticationHeaderValue("Bearer", token);
-        }
-        return client;
     }
 }
