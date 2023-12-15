@@ -1,5 +1,6 @@
 ﻿using AffiliateWODTracker.Mobile.Views.Account;
 using AffiliateWODTracker.Mobile.Views.Home;
+using AffiliateWODTracker.Mobile.Views.Workouts;
 
 namespace AffiliateWODTracker.Mobile
 {
@@ -16,6 +17,7 @@ namespace AffiliateWODTracker.Mobile
             Routing.RegisterRoute(nameof(RegisterPage), typeof(RegisterPage));
             Routing.RegisterRoute(nameof(LoginPage), typeof(LoginPage));
             Routing.RegisterRoute(nameof(HomePage), typeof(HomePage));
+            Routing.RegisterRoute(nameof(AddWorkout), typeof(AddWorkout));
         }
 
         protected override async void OnStart()

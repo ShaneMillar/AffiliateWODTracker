@@ -5,5 +5,6 @@ namespace AffiliateWODTracker.Services.Interfaces
     public interface IWODManager
     {
         Task CreateWOD(WODModel workout);
+        Task<List<AffiliateWodsModel>> GetWODsByAffiliateId(int affiliateId);
     }
 }

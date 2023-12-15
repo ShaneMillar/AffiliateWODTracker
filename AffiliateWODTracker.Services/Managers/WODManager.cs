@@ -24,5 +24,17 @@ namespace AffiliateWODTracker.Services.Managers
 
             await _wodRepository.InsertAsync(entity);
         }
+
+        public async Task<List<AffiliateWodsModel>> GetWODsByAffiliateId(int affiliateId)
+        {
+            var workouts = await _wodRepository.GetWODsByAffiliateId(affiliateId);
+
+            if (workouts.Any())
+            {
+                return workouts.ToList();
+
+            }
+            return null;
+        }
     }
 }

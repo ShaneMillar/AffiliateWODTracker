@@ -1,4 +1,5 @@
 ﻿using AffiliateWODTracker.Mobile.Service;
+using AffiliateWODTracker.Mobile.Views.Home;
 using AffiliateWODTracker.Mobile.Views.Workouts;
 using Microsoft.Extensions.Logging;
 
@@ -18,7 +19,10 @@ namespace AffiliateWODTracker.Mobile
                 });
 
             builder.Services.AddSingleton<HttpClientService>();
+            builder.Services.AddSingleton<MemberService>();
+            builder.Services.AddSingleton<WODService>();
 
+            builder.Services.AddTransient<HomePage>();
             builder.Services.AddTransient<AddWorkout>();
 
 #if DEBUG

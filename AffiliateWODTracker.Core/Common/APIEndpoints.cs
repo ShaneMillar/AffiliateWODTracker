@@ -21,6 +21,7 @@
         public static class WODsController
         {
             public const string PostWorkoutApiEndpoint = "/WOD/PostWorkout";
+            public const string GetWODSByAffiliateIdApiEndpoint = "/WOD/GetWODSByAffiliateId";
         }
     }
 }

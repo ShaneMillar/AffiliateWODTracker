@@ -39,5 +39,23 @@ namespace AffiliateWODTracker.API.Controllers
                 return StatusCode(500, new { Message = "An error occurred during WOD creation." });
             }
         }
+
+        [Authorize]
+        [HttpGet(nameof(GetWODsByAffiliateId), Name = nameof(GetWODsByAffiliateId))]
+        public async Task<IActionResult> GetWODsByAffiliateId([FromQuery] int affiliateId)
+        {
+            try
+            {
+               var workouts =  await _wodManager.GetWODsByAffiliateId(affiliateId);
+                return Ok(workouts);
+
+            }
+            catch (Exception ex)
+            {
+                _logger.LogError(ex, "An error occurred retrieving workouts.");
+                return StatusCode(500, new { Message = "An error occurred retrieving workouts." });
+            }
+
+        }
     }
 }
