@@ -13,6 +13,7 @@ namespace AffiliateWODTracker.Services.Services
             CreateMap<AffiliateEntity, AffiliateViewModel>();
             CreateMap<MemberEntity, Member>();
             CreateMap<Member, MemberEntity>();
+            CreateMap<WODModel, WODEntity>();
 
             // Add other mappings here
         }

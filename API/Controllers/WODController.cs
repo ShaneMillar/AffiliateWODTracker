@@ -1,5 +1,6 @@
 ﻿using AffiliateWODTracker.Core.Models;
 using AffiliateWODTracker.Services.Interfaces;
+using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Mvc;
 
 namespace AffiliateWODTracker.API.Controllers
@@ -9,12 +10,15 @@ namespace AffiliateWODTracker.API.Controllers
     public class WODController : Controller
     {
         private readonly IWODManager _wodManager;
+        private readonly ILogger<WODController> _logger;
 
-        public WODController(IWODManager wodManager)
+        public WODController(IWODManager wodManager, ILogger<WODController> logger)
         {
             _wodManager = wodManager;
+            _logger = logger;
         }
 
+        [Authorize]
         [HttpPost(nameof(PostWorkout), Name = nameof(PostWorkout))]
         public async Task<IActionResult> PostWorkout([FromBody] WODModel workout)
         {
@@ -22,7 +26,18 @@ namespace AffiliateWODTracker.API.Controllers
             {
                 return BadRequest("Workout data is required.");
             }
-            return Ok();
+            try
+            {
+               await _wodManager.CreateWOD(workout);
+                return Ok(new { Message = "WOD Creation successful." });
+
+            }
+            catch (Exception ex)
+            {
+
+                _logger.LogError(ex, "An error occurred during WOD creation.");
+                return StatusCode(500, new { Message = "An error occurred during WOD creation." });
+            }
         }
     }
 }

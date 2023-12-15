@@ -34,6 +34,7 @@ builder.Services.AddIdentity<IdentityUser, IdentityRole>()
 // Repositories
 builder.Services.AddScoped<IAffiliateRepository, AffiliateRepository>();
 builder.Services.AddScoped<IMemberRepository, MemberRepository>();
+builder.Services.AddScoped<IWODRepository, WODRepository>();
 
 //Managers
 builder.Services.AddScoped<IAffiliateManager, AffiliateManager>();

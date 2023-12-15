@@ -1,12 +1,22 @@
-﻿using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
+﻿using AffiliateWODTracker.Data.DataModels;
+using AffiliateWODTracker.Data.Interfaces;
 
 namespace AffiliateWODTracker.Data.Repositories
 {
-    internal class WODRepository
+    public class WODRepository : IWODRepository
     {
+        private readonly ApplicationDataContext _context;
+
+        public WODRepository(ApplicationDataContext context)
+        {
+            _context = context;
+        }
+
+        public async Task InsertAsync(WODEntity workout)
+        {
+            await _context.WODs.AddAsync(workout);
+            await _context.SaveChangesAsync();
+        }
+
     }
 }
